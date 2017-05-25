@@ -7,24 +7,18 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.administrator.complettedmyspli.Mysingletone;
 import com.example.administrator.complettedmyspli.R;
 
 import org.json.JSONArray;
@@ -32,9 +26,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Administrator on 24/05/2017.
@@ -47,7 +39,8 @@ public class DialogeComments extends Dialog {
     RecyclerView.LayoutManager recyclerViewlayoutManager, recyclerViewlayoutManager2;
     RecyclerView.Adapter  recyclerViewadapterComment;
     ProgressBar progressBar;
-    String URL = "http://devsinai.com/DrSiani/commentsList.php";
+    String URLcommest = "http://devsinai.com/DrSiani/commentsList.php";
+    String URLpost="http://devsinai.com/DrSiani/getOnePost.php";
     String JSON_ID = "user_id";
     String JSON_NAME = "name";
     String JIMAG_Name = "imagepost";
@@ -103,8 +96,8 @@ public class DialogeComments extends Dialog {
         recyclerView.setLayoutManager(recyclerViewlayoutManager);
         recyclerViewadapterComment = new CommentAdapter(Mylist);
         recyclerView.setAdapter(recyclerViewadapterComment);
-        textComent = (TextView) findViewById(R.id.textComent);
-        editcomment = (EditText) findViewById(R.id.editcomment);
+       // textComent = (TextView) findViewById(R.id.textComent);
+       // editcomment = (EditText) findViewById(R.id.editcomment);
 
         prefComment =c.getSharedPreferences("prefCommentId.conf", Context.MODE_PRIVATE);
         id_Comment = prefComment.getString("post_id", "post_id");
@@ -112,7 +105,7 @@ public class DialogeComments extends Dialog {
 
 
 
-        textComent.setOnClickListener(new View.OnClickListener() {
+       /* textComent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -166,14 +159,14 @@ public class DialogeComments extends Dialog {
 
                 Mysingletone.getInstance(DialogeComments.this.c).addToRequestque(stringRequest);
             }
-        });
+        });*/
 
 
 
 
     }  public void JSON_DATA_WEB_CALL() {
 
-        jsonArrayRequest = new JsonArrayRequest(URL,
+        jsonArrayRequest = new JsonArrayRequest(URLcommest,
 
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -206,15 +199,23 @@ public class DialogeComments extends Dialog {
             JSONObject json = null;
             try {
                 json = array.getJSONObject(i);
+                prefComment =c.getSharedPreferences("prefCommentId.conf", Context.MODE_PRIVATE);
+                id_Comment = prefComment.getString("post_id", "post_id");
+                editorComment = prefComment.edit();
 
-//                id2 = pref.getString("user_id", "user_id");
+                editorComment.putString("post_id", json.getString("post_id"));
 
-//                editor.putString("user_id", json.getString("user_id"));
-            //    if(id.equals(text_user_id))
-                modelsComment.setName(json.getString(JSON_NAME));
+////              id2 = pref.getString("user_id", "user_id");
+                final String post_id=json.getString("post_id").toString();
 
-                modelsComment.setComments(json.getString(COMMENT));
+                if(id_Comment.equals(post_id)) {
+                   modelsComment.setTextNamesss(json.getString("name"));
 
+                   modelsComment.setTextCommentsss(json.getString("comment"));
+                   modelsComment.setTextPost_id(json.getString("post_id"));
+
+
+               }
 
             } catch (JSONException e) {
 

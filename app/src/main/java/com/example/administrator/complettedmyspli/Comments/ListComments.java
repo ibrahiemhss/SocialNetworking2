@@ -5,22 +5,34 @@ package com.example.administrator.complettedmyspli.Comments;
  */
 
 public class ListComments {
-    String comments;
-    String name;
-    public String getComments() {
-        return comments;
+    String textPost_id;
+    String textNamesss;
+    String textCommentsss;
+
+
+    public String getTextPost_id() {
+        return textPost_id;
     }
 
-    public void setComments(String comments) {
-        this.comments = comments;
+    public void setTextPost_id(String textPost_id) {
+        this.textPost_id = textPost_id;
     }
 
-    public String getName() {
-        return name;
+
+    public String getTextNamesss() {
+        return textNamesss;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTextNamesss(String textNamesss) {
+        this.textNamesss = textNamesss;
+    }
+
+    public String getTextCommentsss() {
+        return textCommentsss;
+    }
+
+    public void setTextCommentsss(String textCommentsss) {
+        this.textCommentsss = textCommentsss;
     }
 
 

@@ -113,9 +113,8 @@ public class Comments extends AppCompatActivity {
 
 //                editor.putString("user_id", json.getString("user_id"));
 
-                modelsComment.setName(json.getString(JSON_NAME));
 
-                modelsComment.setComments(json.getString(COMMENT));
+
 
 
             } catch (JSONException e) {

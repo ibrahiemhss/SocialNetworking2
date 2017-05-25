@@ -221,7 +221,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View v) {
                 dialogeComments.show();
-                final StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://devsinai.com/DrSiani/GetIdComments.php",
+                final StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://devsinai.com/DrSiani/commentsList.php",
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
@@ -235,8 +235,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                                 editorComment.putString("post_id",jsonObject.getString("post_id"));
 
+                                    Toast.makeText(context,id_Comment,Toast.LENGTH_LONG).show();
 
-                                editorComment.commit();
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }

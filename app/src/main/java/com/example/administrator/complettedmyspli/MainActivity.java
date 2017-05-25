@@ -177,7 +177,9 @@ public class MainActivity extends AppCompatActivity /*implements CompoundButton.
         AlertDialog alertDialog=builder.create();
         alertDialog.show();
     }
-
+     private void TestUpload(){
+         int i=1+1;
+     }
 /*
 public void startActivty(){
 

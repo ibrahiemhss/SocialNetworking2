@@ -72,7 +72,6 @@ public class ShowPosts extends AppCompatActivity {
 
 
 
-        COMMENTS_JSON_DATA_WEB_CALL();
 
 
 
@@ -155,8 +154,6 @@ public class ShowPosts extends AppCompatActivity {
         recyclerView.setAdapter(recyclerViewadapter);
     }
 
-    public void COMMENTS_JSON_DATA_WEB_CALL() {
 
-    }
 
 }

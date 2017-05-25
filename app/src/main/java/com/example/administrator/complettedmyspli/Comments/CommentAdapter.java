@@ -42,10 +42,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyHolder
 
     @Override
     public void onBindViewHolder(MyHolder holder, int position) {
-
         ListComments comments = Mylist.get(position);
-        holder.Name.setText(comments.getName());
-        holder.Comment.setText(comments.getComments());
+
+        holder.textNamesss.setText(comments.getTextNamesss());
+        holder.textCommentsss.setText(comments.getTextCommentsss());
+        holder.textPost_id.setText(comments.getTextPost_id());
     }
 @Override
     public int getItemCount()
@@ -66,13 +67,16 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyHolder
 
 
 
-        TextView Name;
-        TextView Comment;
+
+             TextView textNamesss;
+             TextView textCommentsss;
+             TextView textPost_id;
         MyHolder(View itemView) {
             super(itemView);
 
-            Name = (TextView) itemView.findViewById(R.id.textNamesss);
-            Comment = (TextView) itemView.findViewById(R.id.textCommentsss);
+            textCommentsss = (TextView) itemView.findViewById(R.id.textCommentsss);
+            textNamesss = (TextView) itemView.findViewById(R.id.textNamesss);
+            textPost_id = (TextView) itemView.findViewById(R.id.textPost_id);
         }
 
 }}
