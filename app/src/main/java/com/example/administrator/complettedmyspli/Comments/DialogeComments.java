@@ -225,14 +225,14 @@ public class DialogeComments extends Dialog {
 ////              id2 = pref.getString("user_id", "user_id");
                 final String post_id=json.getString("post_id").toString();
 
-                if(id_Comment.equals(post_id)) {
+
                     modelsComment.setTextNamesss(json.getString("name"));
 
                     modelsComment.setTextCommentsss(json.getString("comment"));
                     modelsComment.setTextPost_id(json.getString("post_id"));
 
 
-                }
+
 
             } catch (JSONException e) {
 
