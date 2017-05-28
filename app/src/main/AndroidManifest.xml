@@ -41,7 +41,8 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".ShowPosts" />
-        <activity android:name=".Comments.Comments"></activity>
+        <activity android:name=".Comments.Comments" />
+        <activity android:name=".Retrofit.showPostRetrofit"></activity>
     </application>
 
 </manifest>

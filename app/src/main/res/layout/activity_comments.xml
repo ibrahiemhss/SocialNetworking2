@@ -6,13 +6,37 @@
     android:minHeight="500dp"
 
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
 
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+                <TextView
+                    android:text="تعليق"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtAddComment"
+                    android:layout_weight="1" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:hint=" اضافة تعليق"
+                    android:ems="10"
+                    android:id="@+id/editTextComments"
+                    android:layout_weight="3" />
+        </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
         android:id="@+id/RvListComent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
+            android:layout_weight="3"
+            />
 </LinearLayout>
