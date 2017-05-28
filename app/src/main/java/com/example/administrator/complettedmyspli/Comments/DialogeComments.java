@@ -121,6 +121,7 @@ public class DialogeComments extends Dialog {
                 final String Comment=editTextComments.getText().toString();
 
 
+
                 if(Comment.equals("")){
                     Toast.makeText(DialogeComments.this.c,"ادخل تعليق",Toast.LENGTH_LONG).show();
 
@@ -143,7 +144,6 @@ public class DialogeComments extends Dialog {
 
                                         editorComment.commit();
 
-                                        String code = jsonObject.getString("code");
 
                                     } catch (JSONException e) {
                                         e.printStackTrace();
