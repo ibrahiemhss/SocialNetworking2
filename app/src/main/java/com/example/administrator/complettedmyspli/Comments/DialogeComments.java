@@ -33,13 +33,12 @@ import java.util.List;
  */
 
 public class DialogeComments extends Dialog {
-    List<ListComments> Mylist;
+   public List<ListComments> Mylist;
     CommentAdapter adapterRVcomment;
-
     RecyclerView.LayoutManager recyclerViewlayoutManager, recyclerViewlayoutManager2;
     RecyclerView.Adapter  recyclerViewadapterComment;
     ProgressBar progressBar;
-    String URLcommest = "http://devsinai.com/DrSiani/commentsList.php";
+    String URLcommest = "http://devsinai.com/DrSiani/GetIdComments.php";
     String URLpost="http://devsinai.com/DrSiani/getOnePost.php";
     String JSON_ID = "user_id";
     String JSON_NAME = "name";
@@ -76,6 +75,7 @@ public class DialogeComments extends Dialog {
         this.c = a;
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,71 +96,12 @@ public class DialogeComments extends Dialog {
         recyclerView.setLayoutManager(recyclerViewlayoutManager);
         recyclerViewadapterComment = new CommentAdapter(Mylist);
         recyclerView.setAdapter(recyclerViewadapterComment);
-       // textComent = (TextView) findViewById(R.id.textComent);
-       // editcomment = (EditText) findViewById(R.id.editcomment);
+        // textComent = (TextView) findViewById(R.id.textComent);
+        // editcomment = (EditText) findViewById(R.id.editcomment);
 
         prefComment =c.getSharedPreferences("prefCommentId.conf", Context.MODE_PRIVATE);
         id_Comment = prefComment.getString("post_id", "post_id");
         editorComment = prefComment.edit();
-
-
-
-       /* textComent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-
-                final StringRequest stringRequest = new StringRequest(Request.Method.POST, "http:///comment.php",
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                try {
-
-
-                                    JSONObject jsonObject = new JSONObject(response);
-
-                                    String Response = jsonObject.getString("response");
-                                    Toast.makeText(c, Response, Toast.LENGTH_LONG).show();
-                                    if(response.equals("تم النشر للصوره والمنشور")||response.equals("تم النشر")){
-
-
-                                    }
-
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                }) {
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-
-
-                        Map<String, String> params = new HashMap<>();
-
-
-                        params.put("post_id", id_Comment);            // Add this line to send USER ID to server
-                        params.put("comment",editcomment.getText().toString().trim());
-
-                        {
-
-                        }
-
-                        return params;
-                    }
-                };
-
-                Mysingletone.getInstance(DialogeComments.this.c).addToRequestque(stringRequest);
-            }
-        });*/
-
 
 
 
@@ -172,8 +113,14 @@ public class DialogeComments extends Dialog {
                     @Override
                     public void onResponse(JSONArray response) {
 
-                        //swip.setVisibility(View.GONE);
+                        JSONObject jsonObject= null;
+                        try {
+                            jsonObject = response.getJSONObject(0);
 
+                        editorComment.putString("post_id",jsonObject.getString("post_id"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                         JSON_PARSE_DATA_AFTER_WEBCALL(response);
                     }
                 },
@@ -182,7 +129,8 @@ public class DialogeComments extends Dialog {
                     public void onErrorResponse(VolleyError error) {
 
                     }
-                });
+                })
+        ;
 
         requestQueue = Volley.newRequestQueue(c);
 
@@ -209,13 +157,13 @@ public class DialogeComments extends Dialog {
                 final String post_id=json.getString("post_id").toString();
 
                 if(id_Comment.equals(post_id)) {
-                   modelsComment.setTextNamesss(json.getString("name"));
+                    modelsComment.setTextNamesss(json.getString("name"));
 
-                   modelsComment.setTextCommentsss(json.getString("comment"));
-                   modelsComment.setTextPost_id(json.getString("post_id"));
+                    modelsComment.setTextCommentsss(json.getString("comment"));
+                    modelsComment.setTextPost_id(json.getString("post_id"));
 
 
-               }
+                }
 
             } catch (JSONException e) {
 
@@ -228,11 +176,11 @@ public class DialogeComments extends Dialog {
 
         recyclerView.setAdapter(recyclerViewadapterComment);
     }
-
-
-
+    String id_post;
+    public void post_id(String id_post){
+        this.id_post=id_post;
+    }
 
 
 
 }
-

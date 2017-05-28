@@ -158,7 +158,10 @@ public class MainActivity extends AppCompatActivity /*implements CompoundButton.
                 }
 
             }
-        });
+        }
+
+        )
+        ;
 
     }
     private void desplayalert( String message){

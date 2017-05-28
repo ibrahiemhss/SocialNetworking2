@@ -114,9 +114,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         final String text_user_id =holder. textId.getText().toString();
         final String post_id=holder.text_id_post.getText().toString();
-        if(id.equals(text_user_id)){
+        if(id.equals(text_user_id)) {
             holder.textId.setVisibility(View.VISIBLE);
-            /////////////////////////////////////////////
+
+            }
+        else if (id != (text_user_id)) {
+            holder.textId.setVisibility(View.GONE);
+        }
             holder.textId.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -211,31 +215,32 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 }
             });
 
-        }
 
 
 
           //////////////////////////////////////////////
         final DialogeComments dialogeComments=new DialogeComments(context);
         holder.textComents.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                dialogeComments.show();
-                final StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://devsinai.com/DrSiani/commentsList.php",
+
+
+                    final StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://devsinai.com/DrSiani/GetIdComments.php",
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
 
+                                DialogeComments dialogeComments1=new DialogeComments(context);
                                 try {
-                                JSONArray jsonArray=new JSONArray(response);
-                                JSONObject jsonObject=jsonArray.getJSONObject(0);
-                                prefComment =context.getSharedPreferences("prefCommentId.conf", Context.MODE_PRIVATE);
-                                id_Comment = prefComment.getString("post_id", "post_id");
-                                editorComment = prefComment.edit();
+                                    JSONArray jsonArray=new JSONArray(response);
+                                    JSONObject jsonObject=jsonArray.getJSONObject(0);
+                                    id_Comment = jsonObject.getString("post_id");
 
-                                editorComment.putString("post_id",jsonObject.getString("post_id"));
+                                    dialogeComments1.post_id((models.getId_post()));
 
-                                    Toast.makeText(context,id_Comment,Toast.LENGTH_LONG).show();
+                                    dialogeComments1.show();
+
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -251,6 +256,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                         }
                     }
                 }){
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+
+                            Map<String,String> params=new HashMap<String, String>();
+                            params.put("post_id",post_id);
+
+
+                            return params;
+                        }
                 }
                         ;
 
@@ -259,7 +273,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             }
         });
-
 
 
 
