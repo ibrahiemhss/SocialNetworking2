@@ -67,9 +67,9 @@ public class DialogeComments extends Dialog {
     private RecyclerView.LayoutManager layoutManager;
 
     RecyclerView recyclerView;
-    SharedPreferences prefComment;
-    String id_Comment;
-    SharedPreferences.Editor editorComment;
+    SharedPreferences prefComment,pref;
+    String id,id_Comment;
+    SharedPreferences.Editor editorComment,editor;
     public Context c;
 
     public Dialog d;
@@ -110,6 +110,9 @@ public class DialogeComments extends Dialog {
         recyclerView.setAdapter(recyclerViewadapterComment);
         // textComent = (TextView) findViewById(R.id.textComent);
         // editcomment = (EditText) findViewById(R.id.editcomment);
+        pref=c.getSharedPreferences("Login2.conf", Context.MODE_PRIVATE);
+        id = pref.getString("id","id");
+        editor=pref.edit();
 
         prefComment =c.getSharedPreferences("prefCommentId.conf", Context.MODE_PRIVATE);
         id_Comment = prefComment.getString("post_id", "post_id");
@@ -119,7 +122,8 @@ public class DialogeComments extends Dialog {
             @Override
             public void onClick(View v) {
                 final String Comment=editTextComments.getText().toString();
-
+                final String id_user=pref.getString("password","");
+                final String post_id =prefComment.getString("id","");
 
 
                 if(Comment.equals("")){
@@ -161,9 +165,9 @@ public class DialogeComments extends Dialog {
                         protected Map<String, String> getParams() throws AuthFailureError {
 
                             Map<String, String> params = new HashMap<String, String>();
+                            params.put("user_id", id_user);
+                            params.put("post_id", post_id);
                             params.put("comment", Comment);
-                            params.put("post_id", id_Comment);
-
 
 
                             return params;
