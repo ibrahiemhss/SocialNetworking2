@@ -40,6 +40,8 @@ public class ShowPosts extends AppCompatActivity {
     String JSON_SUBJECT = "postcontent";
     String JSON_TIME = "created_at";
     String JSON_ID_POST = "post_id";
+    String JSON_LIKE_COUNTS= "likes_count";
+
     SwipeRefreshLayout swip;
 
     private JsonArrayRequest jsonArrayRequest;
@@ -140,6 +142,8 @@ public class ShowPosts extends AppCompatActivity {
                 GetDataAdapter2.setTimeapost(json.getString(JSON_TIME));
                 GetDataAdapter2.setId_user(json.getString(JSON_ID));
                 GetDataAdapter2.setId_post(json.getString(JSON_ID_POST));
+
+                GetDataAdapter2.setLikeCounts(json.getString(JSON_LIKE_COUNTS));
 
 
             } catch (JSONException e) {
