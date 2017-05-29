@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -134,8 +133,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                         Map<String, String> params = new HashMap<>();
 
 
-                        params.put("user_id", id);
-                        params.put("post_id", id);            // Add this line to send USER ID to server
+                        params.put("user_id", models.getId_user());
+                        params.put("post_id", models.getId_post());
+                        // Add this line to send USER ID to server
 // Add this line to send USER ID to server
 
 
@@ -437,18 +437,6 @@ return 0 ;
             LikeCounts=(TextView)itemView.findViewById(R.id.LikeCounts) ;
             LikeB=(ImageView) itemView.findViewById(R.id.LikeB) ;
 
-
-            RecyclerView.LayoutManager layout = new LinearLayoutManager(context);
-            layout.setAutoMeasureEnabled(true);
-
-
-
-
-            Like = (ImageView) itemView.findViewById(R.id.Like);
         }
         }
-
-
-
-
 }
