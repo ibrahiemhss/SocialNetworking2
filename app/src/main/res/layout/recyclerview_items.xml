@@ -117,6 +117,14 @@
                  android:layout_gravity="end"
 
                     />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="40dp"
+                    android:layout_marginLeft="55dp"
+                    android:hint="اضافة تعليق"
+                    android:layout_gravity="center"
+                    android:id="@+id/EditCommentADB"/>
 
                 <TextView
                     android:id="@+id/BtComents"

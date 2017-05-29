@@ -21,6 +21,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.example.administrator.complettedmyspli.Comments.DialogeComments;
 import com.example.administrator.complettedmyspli.Mysingletone;
@@ -108,6 +109,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder. textId.setText(models.getId_user());
         holder. text_id_post.setText(models.getId_post());
         holder.BtComents.setText(models.getTextComent());
+        holder.editcomment.setText(models.getTextComent());
 //        holder.editcomment.setText(models.getEditcomment());
 
 
@@ -218,6 +220,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 
 
+
+
           //////////////////////////////////////////////
         final DialogeComments dialogeComments=new DialogeComments(context);
         holder.BtComents.setOnClickListener(new View.OnClickListener() {
@@ -226,7 +230,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             public void onClick(View v) {
 
 
-                    final StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://devsinai.com/SocialNetwork/GetIdComments.php",
+
+                    final StringRequest stringRequest2 = new StringRequest(Request.Method.POST, "http://devsinai.com/SocialNetwork/GetIdComments.php",
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
@@ -247,7 +252,55 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                                     editorComment.putString("post_id",jsonObject.getString("post_id"));
 
                                     editorComment.commit();
-                                    dialogeComments1.show();
+                                    final String Comment=holder.editcomment.getText().toString();
+                                    final String id_user=pref.getString("id","");
+                                    final String post_id =prefComment.getString("post_id","");
+
+
+                                    if(Comment.equals("")){
+                                        Toast.makeText(RecyclerViewAdapter.this.context,"ادخل تعليق",Toast.LENGTH_LONG).show();
+
+                                    }
+                                    else {
+                                        StringRequest stringRequest1 = new StringRequest(Request.Method.POST, "http://devsinai.com/SocialNetwork/AddComment.php",
+                                                new Response.Listener<String>() {
+                                                    @Override
+                                                    public void onResponse(String response) {
+                                                        try {
+                                                            JSONArray jsonArray = new JSONArray(response);
+                                                            JSONObject jsonObject = jsonArray.getJSONObject(0);
+
+                                                            String Response = jsonObject.getString("response");
+                                                            Toast.makeText(RecyclerViewAdapter.this.context, Response, Toast.LENGTH_LONG).show();
+
+                                                        } catch (JSONException e) {
+                                                            e.printStackTrace();
+                                                        }
+
+                                                    }
+                                                }, new Response.ErrorListener() {
+                                            @Override
+                                            public void onErrorResponse(VolleyError error) {
+                                                Toast.makeText(RecyclerViewAdapter.this.context, "Error", Toast.LENGTH_LONG).show();
+                                                VolleyLog.e("Error: ", error.getMessage());
+                                                error.printStackTrace();
+                                            }
+                                        }) {
+                                            @Override
+                                            protected Map<String, String> getParams() throws AuthFailureError {
+
+                                                Map<String, String> params = new HashMap<String, String>();
+                                                params.put("user_id", id_user);
+                                                params.put("post_id", post_id);
+                                                params.put("comment", Comment);
+
+
+                                                return params;
+                                            }
+                                        };
+                                        Mysingletone.getInstance(RecyclerViewAdapter.this.context).addToRequestque(stringRequest1);
+                                    }
+                                        dialogeComments1.show();
 
 
                                 } catch (JSONException e) {
@@ -276,7 +329,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 }
                         ;
 
-                Mysingletone.getInstance(RecyclerViewAdapter.this.context).addToRequestque(stringRequest);
+                Mysingletone.getInstance(RecyclerViewAdapter.this.context).addToRequestque(stringRequest2);
 
 
             }
@@ -334,6 +387,7 @@ return 0 ;
             text_id_post = (TextView) itemView.findViewById(R.id.id_post);
             SubjectImage = (ImageView) itemView.findViewById(R.id.imageViewpost);
             BtComents = (TextView) itemView.findViewById(R.id.BtComents);
+            editcomment= (EditText) itemView.findViewById(R.id.EditCommentADB);
             lstMedicines=(RecyclerView)itemView.findViewById(R.id.RvListComent) ;
 
            RecyclerView.LayoutManager layout = new LinearLayoutManager(context);
