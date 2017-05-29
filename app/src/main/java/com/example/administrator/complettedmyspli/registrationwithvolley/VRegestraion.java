@@ -27,7 +27,7 @@ public class VRegestraion extends AppCompatActivity {
     Button reg_bn;
     EditText Name, Email, UserName, Password, ConfirmPassword;
     String name, email, username, password, confirmpassword;
-    String reg_url = "http://devsinai.com/DrSiani/register.php";
+    String reg_url = "http://devsinai.com/SocialNetwork/register.php";
     android.app.AlertDialog.Builder builder;
 
     @Override
