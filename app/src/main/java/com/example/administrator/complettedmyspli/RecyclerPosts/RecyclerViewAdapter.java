@@ -107,7 +107,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.timePost.setText(models.getTimeapost());
         holder. textId.setText(models.getId_user());
         holder. text_id_post.setText(models.getId_post());
-        holder.textComents.setText(models.getTextComent());
+        holder.BtComents.setText(models.getTextComent());
 //        holder.editcomment.setText(models.getEditcomment());
 
 
@@ -148,7 +148,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                                     // Setting Positive "Yes" Button
                                     alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog,int which) {
-                                            String delet_url="http://DeletePosts.php";
+                                            String delet_url="http://devsinai.com/SocialNetwork/DeletePosts.php";
 
                                             final StringRequest stringRequest = new StringRequest(Request.Method.POST, delet_url,
                                                     new Response.Listener<String>() {
@@ -220,13 +220,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
           //////////////////////////////////////////////
         final DialogeComments dialogeComments=new DialogeComments(context);
-        holder.textComents.setOnClickListener(new View.OnClickListener() {
+        holder.BtComents.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
 
-                    final StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://devsinai.com/DrSiani/GetIdComments.php",
+                    final StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://devsinai.com/SocialNetwork/GetIdComments.php",
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
@@ -239,6 +239,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                                     dialogeComments1.post_id((models.getId_post()));
 
+                                    prefComment=context.getSharedPreferences("prefCommentId.conf", Context.MODE_PRIVATE);
+                                    id_Comment = prefComment.getString("post_id","post_id");
+
+                                    editorComment=prefComment.edit();
+
+                                    editorComment.putString("post_id",jsonObject.getString("post_id"));
+
+                                    editorComment.commit();
                                     dialogeComments1.show();
 
 
@@ -303,7 +311,7 @@ return 0 ;
         public ImageView SyncImage;
         public TextView textId;
         public TextView text_id_post;
-        public final TextView textComents;
+        public final TextView BtComents;
         public EditText editcomment;
         public ImageView Like;
     RecyclerView lstMedicines;
@@ -325,7 +333,7 @@ return 0 ;
             textId = (TextView) itemView.findViewById(R.id.id_user);
             text_id_post = (TextView) itemView.findViewById(R.id.id_post);
             SubjectImage = (ImageView) itemView.findViewById(R.id.imageViewpost);
-            textComents = (TextView) itemView.findViewById(R.id.textComents);
+            BtComents = (TextView) itemView.findViewById(R.id.BtComents);
             lstMedicines=(RecyclerView)itemView.findViewById(R.id.RvListComent) ;
 
            RecyclerView.LayoutManager layout = new LinearLayoutManager(context);

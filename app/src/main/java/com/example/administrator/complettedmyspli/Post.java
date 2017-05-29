@@ -58,7 +58,7 @@ public class Post extends AppCompatActivity {
     private ImageView imagepost;
     private Bitmap bitmap;
 
-    private String uploadeImageUrl = "http://devsinai.com/DrSiani/imageUploadPostDr/uploadimagepost.php";
+    private String uploadeImageUrl = "http://devsinai.com/SocialNetwork/postWithImage.php";
 
     SharedPreferences pref;
     SharedPreferences pref2;

@@ -1,5 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -7,16 +8,20 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    app:cardCornerRadius="@dimen/activity_vertical_margin"
-    app:cardElevation="@dimen/activity_vertical_margin"
-    android:background="@drawable/posts_background">
+    android:layout_marginLeft="2dp"
+    android:layout_marginRight="2dp"
+    android:layout_marginTop="1dp"
+    >
 
-    <LinearLayout
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        card_view:cardCornerRadius="4dp">
 
-        <LinearLayout
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -60,6 +65,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="30dp"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:visibility="gone"
                     android:textAppearance="?android:textAppearanceLarge" />
 
             </LinearLayout>
@@ -96,37 +102,41 @@
                 android:layout_gravity="center"
                 android:text="timepost" />
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_gravity="center"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
 
-                <TextView
-                    android:id="@+id/textComents"
-                    android:layout_width="50dp"
-                    android:gravity="center"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="start"
-                    android:text="تعليق"
-                    android:layout_marginLeft="6dp"
-                    android:textColor="@color/cardview_light_background"
-                    android:background="@color/cardview_dark_background"/>
-                <View
-                    android:layout_width="200dp"
-                    android:layout_height="30dp"/>
                 <ImageView
                     android:id="@+id/Like"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_marginLeft="60dp"
-                    android:src="@drawable/like" />
+                    android:layout_marginTop="3dp"
+                    android:src="@drawable/like"
+                 android:layout_gravity="end"
 
-            </LinearLayout>
+                    />
+
+                <TextView
+                    android:id="@+id/BtComents"
+                    android:layout_width="59dp"
+                    android:gravity="center"
+                    android:layout_marginTop="2dp"
+                    android:layout_height="30dp"
+                    android:hint="تعليق"
+                    android:textColor="#00897B"
+                    android:background="@drawable/posts_background"
+                    android:layout_gravity="start"
+
+                    />
+
+            </FrameLayout>
 
 
         </LinearLayout>
 
-    </LinearLayout>
+       </android.support.v7.widget.CardView>
+
 
 </LinearLayout>

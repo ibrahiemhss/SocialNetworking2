@@ -33,7 +33,7 @@ public class ShowPosts extends AppCompatActivity {
     RecyclerView.LayoutManager recyclerViewlayoutManager, recyclerViewlayoutManager2;
     RecyclerView.Adapter recyclerViewadapter, recyclerViewadapterComment;
     ProgressBar progressBar;
-    String URL = "http://devsinai.com/DrSiani/show_list_posts.php";
+    String URL = "http://devsinai.com/SocialNetwork/show_list_posts.php";
     String JSON_ID = "user_id";
     String JSON_NAME = "name";
     String JIMAG_Name = "imagepost";

@@ -31,7 +31,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity /*implements CompoundButton.OnCheckedChangeListener*/ {
 
-     private final static String  LOGIN_URL = "http://devsinai.com/DrSiani/login.inc.php";
+     private final static String  LOGIN_URL = "http://devsinai.com/SocialNetwork/login.inc.php";
 
 
      EditText editTextUsername;

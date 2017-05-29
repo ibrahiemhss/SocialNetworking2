@@ -47,8 +47,8 @@ public class DialogeComments extends Dialog {
     RecyclerView.LayoutManager recyclerViewlayoutManager, recyclerViewlayoutManager2;
     RecyclerView.Adapter  recyclerViewadapterComment;
     ProgressBar progressBar;
-    String URLcommest = "http://devsinai.com/DrSiani/GetIdComments.php";
-    String URLAddComment="http://devsinai.com/DrSiani/imageUploadPostDr/AddComment.php";
+    String URLcommest = "http://devsinai.com/SocialNetwork/GetIdComments.php";
+    String URLAddComment="http://devsinai.com/SocialNetwork/AddComment.php";
     String JSON_ID = "user_id";
     String JSON_NAME = "name";
     String JIMAG_Name = "imagepost";
@@ -121,9 +121,10 @@ public class DialogeComments extends Dialog {
         txtAddComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 final String Comment=editTextComments.getText().toString();
-                final String id_user=pref.getString("password","");
-                final String post_id =prefComment.getString("id","");
+                final String id_user=pref.getString("id","");
+                final String post_id =prefComment.getString("post_id","");
 
 
                 if(Comment.equals("")){
@@ -137,17 +138,10 @@ public class DialogeComments extends Dialog {
                                 public void onResponse(String response) {
                                     try {
                                         JSONArray jsonArray = new JSONArray(response);
-                                        JSONObject jsonObject = jsonArray.getJSONObject(0);
+                                        JSONObject jsonObject=jsonArray.getJSONObject(0);
 
-                                        prefComment =c.getSharedPreferences("prefCommentId.conf", Context.MODE_PRIVATE);
-                                        id_Comment = prefComment.getString("post_id", "post_id");
-                                        editorComment = prefComment.edit();
-
-                                        editorComment.putString("post_id", jsonObject.getString("post_id"));
-
-
-                                        editorComment.commit();
-
+                                        String Response = jsonObject.getString("response");
+                                        Toast.makeText(DialogeComments.this.c, Response, Toast.LENGTH_LONG).show();
 
                                     } catch (JSONException e) {
                                         e.printStackTrace();
@@ -250,6 +244,15 @@ public class DialogeComments extends Dialog {
         recyclerView.setAdapter(recyclerViewadapterComment);
     }
     String id_post;
+
+    public String getId_post() {
+        return id_post;
+    }
+
+    public void setId_post(String id_post) {
+        this.id_post = id_post;
+    }
+
     public void post_id(String id_post){
         this.id_post=id_post;
     }
