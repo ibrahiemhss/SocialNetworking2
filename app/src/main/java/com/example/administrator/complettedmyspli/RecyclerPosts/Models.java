@@ -1,7 +1,5 @@
 package com.example.administrator.complettedmyspli.RecyclerPosts;
 
-import java.util.List;
-
 /**
  * Created by Administrator on 25/04/2017.
  */
@@ -10,15 +8,22 @@ public class Models {
 
     String textComent;
     String editcomment;
-    int Likes;
+    String Likes;
     String name;
     String subject;
     public   String ImageItems;
     String timeapost;
     String id_post;
-   List RvListComment;
 
+    String LikeCounts;
 
+    public String getLikeCounts() {
+        return LikeCounts;
+    }
+
+    public void setLikeCounts(String likeCounts) {
+        LikeCounts = likeCounts;
+    }
 
     public String getTextComent() {
         return textComent;
@@ -36,11 +41,11 @@ public class Models {
         this.editcomment = editcomment;
     }
 
-    public int getLikes() {
+    public String getLikes() {
         return Likes;
     }
 
-    public void setLikes(int likes) {
+    public void setLikes(String likes) {
         Likes = likes;
     }
 

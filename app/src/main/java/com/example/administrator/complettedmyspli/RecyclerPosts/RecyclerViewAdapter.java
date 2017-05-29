@@ -51,6 +51,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     SharedPreferences.Editor editor,editorComment;
     List<Models> modelsList;
     android.app.AlertDialog.Builder builder;
+    String URL_ADD_LIKES="http://devsinai.com/SocialNetwork/AddLike.php";
 
 
 
@@ -110,6 +111,48 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder. text_id_post.setText(models.getId_post());
         holder.BtComents.setText(models.getTextComent());
         holder.editcomment.setText(models.getTextComent());
+        holder.LikeCounts.setText(models.getLikeCounts());
+        holder.LikeB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_ADD_LIKES,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }) {
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+
+
+                        Map<String, String> params = new HashMap<>();
+
+
+                        params.put("user_id", id);
+                        params.put("post_id", id);            // Add this line to send USER ID to server
+// Add this line to send USER ID to server
+
+
+                        {
+
+                        }
+
+                        return params;
+                    }
+                };
+
+                Mysingletone.getInstance(RecyclerViewAdapter.this.context).addToRequestque(stringRequest);
+            }
+
+
+
+        });
 //        holder.editcomment.setText(models.getEditcomment());
 
 
@@ -367,6 +410,9 @@ return 0 ;
         public final TextView BtComents;
         public EditText editcomment;
         public ImageView Like;
+        public TextView LikeCounts;
+        public  ImageView LikeB;
+
     RecyclerView lstMedicines;
 
     Fragment mFragment;
@@ -388,9 +434,11 @@ return 0 ;
             SubjectImage = (ImageView) itemView.findViewById(R.id.imageViewpost);
             BtComents = (TextView) itemView.findViewById(R.id.BtComents);
             editcomment= (EditText) itemView.findViewById(R.id.EditCommentADB);
-            lstMedicines=(RecyclerView)itemView.findViewById(R.id.RvListComent) ;
+            LikeCounts=(TextView)itemView.findViewById(R.id.LikeCounts) ;
+            LikeB=(ImageView) itemView.findViewById(R.id.LikeB) ;
 
-           RecyclerView.LayoutManager layout = new LinearLayoutManager(context);
+
+            RecyclerView.LayoutManager layout = new LinearLayoutManager(context);
             layout.setAutoMeasureEnabled(true);
 
 
