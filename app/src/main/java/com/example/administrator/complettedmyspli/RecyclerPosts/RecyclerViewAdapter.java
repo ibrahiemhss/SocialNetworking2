@@ -1,12 +1,14 @@
 package com.example.administrator.complettedmyspli.RecyclerPosts;
 
-import android.content.Context;
+
+        import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,17 +49,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     String id;
     SharedPreferences prefComment;
     String id_Comment;
-    SharedPreferences.Editor editor,editorComment;
+    SharedPreferences.Editor editor, editorComment;
     List<Models> modelsList;
     android.app.AlertDialog.Builder builder;
-    String URL_ADD_LIKES="http://devsinai.com/SocialNetwork/AddLike.php";
-
-
+    String URL_ADD_LIKES = "http://devsinai.com/SocialNetwork/AddLike.php";
+    String URL_Delete_LIKES = "http://devsinai.com/SocialNetwork/DeletLikes.php";
+    final String TAAG=this.getClass().getName();
 
 
     //    final String TAAG=this.getClass().getName();
 ///////////////////////////////////////////////////////////////////////
-    public RecyclerViewAdapter(ArrayList<Models> getDataAdapter, Context context){
+    public RecyclerViewAdapter(ArrayList<Models> getDataAdapter, Context context) {
 
 
         if (getDataAdapter != null)
@@ -78,21 +80,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_items, parent, false);
 
 
-
-
-
         return new ViewHolder(v);
 
     }
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-       // AdapterRVcomment bbbb=new AdapterRVcomment(mCommentList);
+        // AdapterRVcomment bbbb=new AdapterRVcomment(mCommentList);
         final Models models = modelsList.get(position);
-        pref =context.getSharedPreferences("Login2.conf", Context.MODE_PRIVATE);
+        pref = context.getSharedPreferences("Login2.conf", Context.MODE_PRIVATE);
         id = pref.getString("id", "id");
         editor = pref.edit();
 
@@ -102,23 +101,47 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 .into((holder.SubjectImage));
 
 
-
         holder.NameTextView.setText(models.getName());
         holder.SubjectTextView.setText(models.getSubject());
         holder.timePost.setText(models.getTimeapost());
-        holder. textId.setText(models.getId_user());
-        holder. text_id_post.setText(models.getId_post());
+        holder.textId.setText(models.getId_user());
+        holder.text_id_post.setText(models.getId_post());
         holder.BtComents.setText(models.getTextComent());
         holder.editcomment.setText(models.getTextComent());
         holder.LikeCounts.setText(models.getLikeCounts());
+        if (models.getisLiked()) {
+            holder.LikeB.setImageResource(R.drawable.like);
+        } else {
+            holder.LikeB.setImageResource(R.drawable.no_like);
+        }
         holder.LikeB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_ADD_LIKES,
+                String url = "";
+                Log.d(TAAG,"check"+ v);
+                if (models.getisLiked()==false) {
+                    url = URL_ADD_LIKES;
+                    holder.LikeB.setImageResource(R.drawable.like);
+
+                } else if(models.getisLiked()==true) {
+                    url = URL_Delete_LIKES;
+                    holder.LikeB.setImageResource(R.drawable.no_like);
+
+                }
+                final StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
+                                JSONObject jsonObject = null;
+                                try {
+                                    jsonObject = new JSONObject(response);
 
+
+                                String Response = jsonObject.getString("response");
+                                Toast.makeText(RecyclerViewAdapter.this.context, Response, Toast.LENGTH_LONG).show();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }, new Response.ErrorListener() {
                     @Override
@@ -151,160 +174,150 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             }
 
 
-
         });
 //        holder.editcomment.setText(models.getEditcomment());
 
 
-
-        final String text_user_id =holder. textId.getText().toString();
-        final String post_id=holder.text_id_post.getText().toString();
-        if(id.equals(text_user_id)) {
+        final String text_user_id = holder.textId.getText().toString();
+        final String post_id = holder.text_id_post.getText().toString();
+        if (id.equals(text_user_id)) {
             holder.textId.setVisibility(View.VISIBLE);
 
-            }
-        else if (id != (text_user_id)) {
+        } else if (id != (text_user_id)) {
             holder.textId.setVisibility(View.GONE);
         }
-            holder.textId.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+        holder.textId.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-                    final PopupMenu popup = new PopupMenu(context, holder.textId);
-                    popup.inflate(R.menu.options_menu);
-                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-                            switch (item.getItemId()) {
-                                case R.id.menu1:
+                final PopupMenu popup = new PopupMenu(context, holder.textId);
+                popup.inflate(R.menu.options_menu);
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                        switch (item.getItemId()) {
+                            case R.id.menu1:
 
-                                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+                                AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
 
-                                    // Setting Dialog Title
-                                    alertDialog.setTitle("Confirm Delete...");
+                                // Setting Dialog Title
+                                alertDialog.setTitle("Confirm Delete...");
 
-                                    // Setting Dialog Message
-                                    alertDialog.setMessage("Are you sure you want delete this?");
+                                // Setting Dialog Message
+                                alertDialog.setMessage("Are you sure you want delete this?");
 
-                                    // Setting Icon to Dialog
-                                    alertDialog.setIcon(R.drawable.delete);
+                                // Setting Icon to Dialog
+                                alertDialog.setIcon(R.drawable.delete);
 
-                                    // Setting Positive "Yes" Button
-                                    alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog,int which) {
-                                            String delet_url="http://devsinai.com/SocialNetwork/DeletePosts.php";
+                                // Setting Positive "Yes" Button
+                                alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        String delet_url = "http://devsinai.com/SocialNetwork/DeletePosts.php";
 
-                                            final StringRequest stringRequest = new StringRequest(Request.Method.POST, delet_url,
-                                                    new Response.Listener<String>() {
-                                                        @Override
-                                                        public void onResponse(String response) {
-                                                            //   Log.d(TAAG,response);
-                                                            if (response.equals("Record Deleted Successfully")) {
-                                                                Toast.makeText(RecyclerViewAdapter.this.context, "deleted success", Toast.LENGTH_LONG).show();
-                                                            } else {
-                                                                Toast.makeText(RecyclerViewAdapter.this.context, "error while delleting item", Toast.LENGTH_LONG).show();
-                                                            }
+                                        final StringRequest stringRequest = new StringRequest(Request.Method.POST, delet_url,
+                                                new Response.Listener<String>() {
+                                                    @Override
+                                                    public void onResponse(String response) {
+                                                        //   Log.d(TAAG,response);
+                                                        if (response.equals("Record Deleted Successfully")) {
+                                                            Toast.makeText(RecyclerViewAdapter.this.context, "deleted success", Toast.LENGTH_LONG).show();
+                                                        } else {
+                                                            Toast.makeText(RecyclerViewAdapter.this.context, "error while delleting item", Toast.LENGTH_LONG).show();
                                                         }
-                                                    }, new Response.ErrorListener() {
-                                                @Override
-                                                public void onErrorResponse(VolleyError error) {
-
-                                                    if(error !=null){
-                                                        Toast.makeText(RecyclerViewAdapter.this.context,"somthing wrong while delleting item",Toast.LENGTH_LONG).show();
-
                                                     }
-                                                }
-                                            }){
-                                                @Override
-                                                protected Map<String, String> getParams() throws AuthFailureError {
+                                                }, new Response.ErrorListener() {
+                                            @Override
+                                            public void onErrorResponse(VolleyError error) {
 
-                                                    Map<String,String> param=new HashMap<String, String>();
-                                                    param.put("post_id",post_id) ;
-                                                    param.put("user_id",text_user_id) ;
-                                                    return param;
+                                                if (error != null) {
+                                                    Toast.makeText(RecyclerViewAdapter.this.context, "somthing wrong while delleting item", Toast.LENGTH_LONG).show();
+
                                                 }
                                             }
-                                                    ;
+                                        }) {
+                                            @Override
+                                            protected Map<String, String> getParams() throws AuthFailureError {
 
-                                            Mysingletone.getInstance(RecyclerViewAdapter.this.context).addToRequestque(stringRequest);
+                                                Map<String, String> param = new HashMap<String, String>();
+                                                param.put("post_id", post_id);
+                                                param.put("user_id", text_user_id);
+                                                return param;
+                                            }
+                                        };
 
-
-                                        }
-                                    });
-
-                                    // Setting Negative "NO" Button
-                                    alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-
-                                        }
-                                    });
-
-                                    // Showing Alert Message
-                                    alertDialog.show();
+                                        Mysingletone.getInstance(RecyclerViewAdapter.this.context).addToRequestque(stringRequest);
 
 
-                                    break;
-                                case R.id.menu2:
-                                    //handle menu2 click
-                                    break;
+                                    }
+                                });
 
-                            }
-                            return false;
+                                // Setting Negative "NO" Button
+                                alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+
+                                    }
+                                });
+
+                                // Showing Alert Message
+                                alertDialog.show();
+
+
+                                break;
+                            case R.id.menu2:
+                                //handle menu2 click
+                                break;
+
                         }
-                    });
+                        return false;
+                    }
+                });
 
-                    popup.show();
+                popup.show();
 
-                }
-            });
-
-
-
-
+            }
+        });
 
 
-          //////////////////////////////////////////////
-        final DialogeComments dialogeComments=new DialogeComments(context);
+        //////////////////////////////////////////////
+        final DialogeComments dialogeComments = new DialogeComments(context);
         holder.BtComents.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
 
-
-                    final StringRequest stringRequest2 = new StringRequest(Request.Method.POST, "http://devsinai.com/SocialNetwork/GetIdComments.php",
+                final StringRequest stringRequest2 = new StringRequest(Request.Method.POST, "http://devsinai.com/SocialNetwork/GetIdComments.php",
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
 
-                                DialogeComments dialogeComments1=new DialogeComments(context);
+                                DialogeComments dialogeComments1 = new DialogeComments(context);
                                 try {
-                                    JSONArray jsonArray=new JSONArray(response);
-                                    JSONObject jsonObject=jsonArray.getJSONObject(0);
+                                    JSONArray jsonArray = new JSONArray(response);
+                                    JSONObject jsonObject = jsonArray.getJSONObject(0);
                                     id_Comment = jsonObject.getString("post_id");
 
                                     dialogeComments1.post_id((models.getId_post()));
 
-                                    prefComment=context.getSharedPreferences("prefCommentId.conf", Context.MODE_PRIVATE);
-                                    id_Comment = prefComment.getString("post_id","post_id");
+                                    prefComment = context.getSharedPreferences("prefCommentId.conf", Context.MODE_PRIVATE);
+                                    id_Comment = prefComment.getString("post_id", "post_id");
 
-                                    editorComment=prefComment.edit();
+                                    editorComment = prefComment.edit();
 
-                                    editorComment.putString("post_id",jsonObject.getString("post_id"));
+                                    editorComment.putString("post_id", jsonObject.getString("post_id"));
 
                                     editorComment.commit();
-                                    final String Comment=holder.editcomment.getText().toString();
-                                    final String id_user=pref.getString("id","");
-                                    final String post_id =prefComment.getString("post_id","");
+                                    final String Comment = holder.editcomment.getText().toString();
+                                    final String id_user = pref.getString("id", "");
+                                    final String post_id = prefComment.getString("post_id", "");
 
 
-                                    if(Comment.equals("")){
-                                        Toast.makeText(RecyclerViewAdapter.this.context,"ادخل تعليق",Toast.LENGTH_LONG).show();
+                                    if (Comment.equals("")) {
+                                        Toast.makeText(RecyclerViewAdapter.this.context, "ادخل تعليق", Toast.LENGTH_LONG).show();
 
-                                    }
-                                    else {
+                                    } else {
                                         StringRequest stringRequest1 = new StringRequest(Request.Method.POST, "http://devsinai.com/SocialNetwork/AddComment.php",
                                                 new Response.Listener<String>() {
                                                     @Override
@@ -343,7 +356,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                                         };
                                         Mysingletone.getInstance(RecyclerViewAdapter.this.context).addToRequestque(stringRequest1);
                                     }
-                                        dialogeComments1.show();
+                                    dialogeComments1.show();
 
 
                                 } catch (JSONException e) {
@@ -354,23 +367,22 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
-                        if(error !=null){
-                            Toast.makeText(RecyclerViewAdapter.this.context,"somthing wrong while delleting item",Toast.LENGTH_LONG).show();
+                        if (error != null) {
+                            Toast.makeText(RecyclerViewAdapter.this.context, "somthing wrong while delleting item", Toast.LENGTH_LONG).show();
 
                         }
                     }
-                }){
-                        @Override
-                        protected Map<String, String> getParams() throws AuthFailureError {
+                }) {
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
 
-                            Map<String,String> params=new HashMap<String, String>();
-                            params.put("post_id",post_id);
+                        Map<String, String> params = new HashMap<String, String>();
+                        params.put("post_id", post_id);
 
 
-                            return params;
-                        }
-                }
-                        ;
+                        return params;
+                    }
+                };
 
                 Mysingletone.getInstance(RecyclerViewAdapter.this.context).addToRequestque(stringRequest2);
 
@@ -379,25 +391,22 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         });
 
 
-
-
-
-
     }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public int getItemCount() {
-if(modelsList!=null){
-    return modelsList.size();
+        if (modelsList != null) {
+            return modelsList.size();
 
-}
-return 0 ;
+        }
+        return 0;
 
 
     }
 
 
-//////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////
     class ViewHolder extends RecyclerView.ViewHolder /*implements View.OnLongClickListener*/ {
 
         public TextView NameTextView;
@@ -411,13 +420,11 @@ return 0 ;
         public EditText editcomment;
         public ImageView Like;
         public TextView LikeCounts;
-        public  ImageView LikeB;
+        public ImageView LikeB;
 
-    RecyclerView lstMedicines;
+        RecyclerView lstMedicines;
 
-    Fragment mFragment;
-
-
+        Fragment mFragment;
 
 
         ItemLongclicklistener itemLongclicklistener;
@@ -433,10 +440,10 @@ return 0 ;
             text_id_post = (TextView) itemView.findViewById(R.id.id_post);
             SubjectImage = (ImageView) itemView.findViewById(R.id.imageViewpost);
             BtComents = (TextView) itemView.findViewById(R.id.BtComents);
-            editcomment= (EditText) itemView.findViewById(R.id.EditCommentADB);
-            LikeCounts=(TextView)itemView.findViewById(R.id.LikeCounts) ;
-            LikeB=(ImageView) itemView.findViewById(R.id.LikeB) ;
+            editcomment = (EditText) itemView.findViewById(R.id.EditCommentADB);
+            LikeCounts = (TextView) itemView.findViewById(R.id.LikeCounts);
+            LikeB = (ImageView) itemView.findViewById(R.id.LikeB);
 
         }
-        }
+    }
 }
