@@ -1,46 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minWidth="300dp"
-    android:minHeight="400dp"
 
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:minHeight="400dp"
+    android:minWidth="300dp"
     android:orientation="vertical">
 
+    <ProgressBar
+        android:id="@+id/progressbarComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
 
-        <LinearLayout
-            android:orientation="horizontal"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/txtAddComment"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="#00897B"
+            android:gravity="center"
+            android:text="تعليق"
+            android:textColor="#f0f0f0" />
+
+        <EditText
+            android:id="@+id/editTextComments"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="3"
+            android:ems="10"
+            android:hint=" اضافة تعليق"
+            android:inputType="textPersonName" />
+    </LinearLayout>
 
-                <TextView
-                    android:text="تعليق"
-                    android:layout_width="100dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:textAlignment="center"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtAddComment"
-                    android:background="@drawable/posts_background"
-                    android:layout_weight="1" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:hint=" اضافة تعليق"
-                    android:ems="10"
-                    android:id="@+id/editTextComments"
-                    android:layout_weight="3" />
-        </LinearLayout>
-
-        <android.support.v7.widget.RecyclerView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/RvListComent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-            android:layout_weight="3"
-            />
+        android:layout_weight="3" />
 </LinearLayout>

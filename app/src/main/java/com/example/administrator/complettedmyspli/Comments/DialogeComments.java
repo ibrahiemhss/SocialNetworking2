@@ -46,7 +46,6 @@ public class DialogeComments extends Dialog {
     CommentAdapter adapterRVcomment;
     RecyclerView.LayoutManager recyclerViewlayoutManager, recyclerViewlayoutManager2;
     RecyclerView.Adapter  recyclerViewadapterComment;
-    ProgressBar progressBar;
     String URLcommest = "http://devsinai.com/SocialNetwork/GetIdComments.php";
     String URLAddComment="http://devsinai.com/SocialNetwork/AddComment.php";
     String JSON_ID = "user_id";
@@ -76,6 +75,7 @@ public class DialogeComments extends Dialog {
     public Button yesSignoutt,noySignout;
     TextView txtAddComment;
     EditText editTextComments;
+    ProgressBar progressBar;
 
 
     public DialogeComments(Context a) {
@@ -97,6 +97,7 @@ public class DialogeComments extends Dialog {
 
         editTextComments= (EditText) findViewById(R.id.editTextComments);
         txtAddComment= (TextView) findViewById(R.id.txtAddComment);
+        progressBar= (ProgressBar) findViewById(R.id.progressbarComment);
 
         recyclerView=(RecyclerView)findViewById(R.id.RvListComent) ;
         Mylist = new ArrayList<>();
@@ -122,6 +123,7 @@ public class DialogeComments extends Dialog {
             @Override
             public void onClick(View v) {
 
+                progressBar.setVisibility(View.VISIBLE);
                 final String COMMENT=editTextComments.getText().toString();
                 final String id_user=pref.getString("id","");
                 final String post_id =prefComment.getString("post_id","");
@@ -136,17 +138,7 @@ public class DialogeComments extends Dialog {
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
-                                    try {
-                                        JSONArray jsonArray = new JSONArray(response);
-                                        JSONObject jsonObject=jsonArray.getJSONObject(0);
-
-                                        String Response = jsonObject.getString("response");
-                                        Toast.makeText(DialogeComments.this.c, Response, Toast.LENGTH_LONG).show();
-
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-
+                                        progressBar.setVisibility(View.GONE);
                                 }
                             }, new Response.ErrorListener() {
                         @Override
@@ -244,14 +236,6 @@ public class DialogeComments extends Dialog {
         recyclerView.setAdapter(recyclerViewadapterComment);
     }
     String id_post;
-
-    public String getId_post() {
-        return id_post;
-    }
-
-    public void setId_post(String id_post) {
-        this.id_post = id_post;
-    }
 
     public void post_id(String id_post){
         this.id_post=id_post;

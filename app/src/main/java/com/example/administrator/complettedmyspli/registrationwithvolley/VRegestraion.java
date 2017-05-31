@@ -3,8 +3,8 @@ package com.example.administrator.complettedmyspli.registrationwithvolley;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatButton;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 
 import com.android.volley.AuthFailureError;
@@ -24,7 +24,7 @@ import java.util.Map;
 
 public class VRegestraion extends AppCompatActivity {
 
-    Button reg_bn;
+    AppCompatButton reg_bn;
     EditText Name, Email, UserName, Password, ConfirmPassword;
     String name, email, username, password, confirmpassword;
     String reg_url = "http://devsinai.com/SocialNetwork/register.php";
@@ -35,7 +35,7 @@ public class VRegestraion extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vregestraion);
 
-        reg_bn = (Button) findViewById(R.id.reg_reigester);
+        reg_bn = (AppCompatButton) findViewById(R.id.btn_signup);
         Name = (EditText) findViewById(R.id.reg_name);
         Email = (EditText) findViewById(R.id.reg_mail);
         UserName = (EditText) findViewById(R.id.reg_usernam);
