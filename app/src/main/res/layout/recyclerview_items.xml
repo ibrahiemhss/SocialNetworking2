@@ -155,6 +155,11 @@
                 android:hint="اضافة تعليق"
                 android:visibility="gone" />
 
+            <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/listLkes"
+                android:visibility="gone"></ListView>
 
         </LinearLayout>
 

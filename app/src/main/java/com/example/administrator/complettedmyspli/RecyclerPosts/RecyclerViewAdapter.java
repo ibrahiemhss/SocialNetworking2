@@ -12,8 +12,10 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +35,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +47,10 @@ import java.util.Map;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     Context context;
+
     SharedPreferences pref;
+
+
     String id;
     SharedPreferences prefComment;
     String id_Comment;
@@ -104,6 +110,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.BtComents.setText(models.getTextComent());
         holder.editcomment.setText(models.getTextComent());
         holder.LikeCounts.setText(models.getLikeCounts());
+
         if (models.getisLiked()) {
             holder.LikeB.setImageResource(R.drawable.like);
         } else {
@@ -424,6 +431,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public TextView LikeCounts;
         public ImageView LikeB;
         private ProgressBar progressbar;
+        ListView listLkes;
 
 
         RecyclerView lstMedicines;
@@ -448,8 +456,69 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             LikeCounts = (TextView) itemView.findViewById(R.id.LikeCounts);
             LikeB = (ImageView) itemView.findViewById(R.id.LikeB);
             progressbar = (ProgressBar) itemView.findViewById(R.id.progressbarRess);
+            listLkes = (ListView) itemView.findViewById(R.id.listLkes);
+
 
 
         }
     }
+
+}class CmmentsModel{
+    public String getName() {
+        return name;
+    }
+
+    private String name;
+
+    void setName(String name) {
+        this.name = name;
+    }
+
+}
+
+
+class VolleyAdapter extends BaseAdapter {
+    public ArrayList<CmmentsModel> CommentsModels ;
+    private LayoutInflater lf;
+
+    @Override
+    public int getCount() {
+        return CommentsModels.size();
+    }
+
+    @Override
+    public Object getItem(int i) {
+        return CommentsModels.get(i);
+    }
+
+    @Override
+    public long getItemId(int i) {
+        return 0;
+    }
+
+    @Override
+    public View getView(int i, View view, ViewGroup viewGroup) {
+        ViewHolder vh ;
+        if(view == null){
+            vh = new ViewHolder();
+            view = lf.inflate(R.layout.list_row_likes,null);
+            vh.Names = (TextView) view.findViewById(R.id.Comment_Name);
+
+            view.setTag(vh);
+        }
+        else{
+            vh = (ViewHolder) view.getTag();
+        }
+
+        CmmentsModel nm = CommentsModels.get(i);
+        vh.Names.setText(nm.getName());
+        return view;
+    }
+
+    class  ViewHolder{
+        TextView Names;
+
+
+    }
+
 }
