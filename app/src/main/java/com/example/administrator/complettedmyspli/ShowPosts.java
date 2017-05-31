@@ -36,7 +36,7 @@ public class ShowPosts extends AppCompatActivity {
 
     RecyclerView recyclerView, recyclerViewComment;
     RecyclerView.LayoutManager recyclerViewlayoutManager, recyclerViewlayoutManager2;
-    RecyclerView.Adapter recyclerViewadapter, recyclerViewadapterComment;
+    RecyclerViewAdapter recyclerViewadapter;
     ProgressBar progressBar;
     String URL = "http://devsinai.com/SocialNetwork/show_list_posts.php";
 
@@ -73,7 +73,7 @@ public class ShowPosts extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerViewlayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(recyclerViewlayoutManager);
-        recyclerViewadapter = new RecyclerViewAdapter(GetDataAdapter13);
+        recyclerViewadapter = new RecyclerViewAdapter(GetDataAdapter13,this);
         recyclerView.setAdapter(recyclerViewadapter);
 
 
@@ -175,10 +175,11 @@ public class ShowPosts extends AppCompatActivity {
             }
             GetDataAdapter13.add(GetDataAdapter2);
         }
+        recyclerViewadapter.setArray(GetDataAdapter13);
+        recyclerViewadapter.notifyDataSetChanged();
+        /*recyclerViewadapter = new RecyclerViewAdapter((ArrayList<Models>) GetDataAdapter13, this);
 
-        recyclerViewadapter = new RecyclerViewAdapter((ArrayList<Models>) GetDataAdapter13, this);
-
-        recyclerView.setAdapter(recyclerViewadapter);
+        recyclerView.setAdapter(recyclerViewadapter);*/
     }
 
 

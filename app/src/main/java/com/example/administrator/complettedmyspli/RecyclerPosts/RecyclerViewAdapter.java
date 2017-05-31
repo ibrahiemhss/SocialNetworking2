@@ -1,7 +1,6 @@
 package com.example.administrator.complettedmyspli.RecyclerPosts;
 
-
-        import android.content.Context;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
@@ -33,7 +32,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,17 +52,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     android.app.AlertDialog.Builder builder;
     String URL_ADD_LIKES = "http://devsinai.com/SocialNetwork/AddLike.php";
     String URL_Delete_LIKES = "http://devsinai.com/SocialNetwork/DeletLikes.php";
-    final String TAAG=this.getClass().getName();
 
 
     //    final String TAAG=this.getClass().getName();
 ///////////////////////////////////////////////////////////////////////
-    public RecyclerViewAdapter(ArrayList<Models> getDataAdapter, Context context) {
-
-
-        if (getDataAdapter != null)
-            modelsList = new ArrayList<>(getDataAdapter);
-        else modelsList = new ArrayList<>();
+    public RecyclerViewAdapter(List<Models> getDataAdapter, Context context) {
         this.modelsList = getDataAdapter;
         this.context = context;
     }
@@ -72,7 +64,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public RecyclerViewAdapter(List<Models> getDataAdapter13) {
     }
 
-
+    public void setArray(List<Models> list){
+        this.modelsList = list;
+    }
     ///////////////////////////////////////////////////////////////////////
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -118,27 +112,24 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View v) {
                 String url = "";
-                Log.d(TAAG,"check"+ v);
-                if (models.getisLiked()==false) {
-                    url = URL_ADD_LIKES;
-                    holder.LikeB.setImageResource(R.drawable.like);
 
-                } else if(models.getisLiked()==true) {
+                if (models.getisLiked()) {
                     url = URL_Delete_LIKES;
                     holder.LikeB.setImageResource(R.drawable.no_like);
+                    models.setisLiked(false);
+                } else {
 
+                    url = URL_ADD_LIKES;
+                    holder.LikeB.setImageResource(R.drawable.like);
+                    models.setisLiked(true);
                 }
-                final StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
-                                JSONObject jsonObject = null;
+
                                 try {
-                                    jsonObject = new JSONObject(response);
-
-
-                                String Response = jsonObject.getString("response");
-                                Toast.makeText(RecyclerViewAdapter.this.context, Response, Toast.LENGTH_LONG).show();
+                                    JSONObject jsonObject = new JSONObject(response);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -155,8 +146,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                         Map<String, String> params = new HashMap<>();
 
-
-                        params.put("user_id", models.getId_user());
+                        Log.v("PARAMS","user_id : "+id+ " , post_id :"+models.getId_post());
+                        params.put("user_id", id);
                         params.put("post_id", models.getId_post());
                         // Add this line to send USER ID to server
 // Add this line to send USER ID to server
@@ -169,8 +160,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                         return params;
                     }
                 };
+               /* RequestQueue requestQueue = Volley.newRequestQueue(context);
+
+
+                requestQueue.add(stringRequest);*/
 
                 Mysingletone.getInstance(RecyclerViewAdapter.this.context).addToRequestque(stringRequest);
+
             }
 
 
@@ -286,8 +282,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             @Override
             public void onClick(View v) {
+                final String COMMENT=holder.editcomment.getText().toString();
 
+                if(COMMENT.equals("")){
+                    Toast.makeText(RecyclerViewAdapter.this.context, "ادخل تعليق", Toast.LENGTH_LONG).show();
 
+                }else{
                 final StringRequest stringRequest2 = new StringRequest(Request.Method.POST, "http://devsinai.com/SocialNetwork/GetIdComments.php",
                         new Response.Listener<String>() {
                             @Override
@@ -314,10 +314,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                                     final String post_id = prefComment.getString("post_id", "");
 
 
-                                    if (Comment.equals("")) {
-                                        Toast.makeText(RecyclerViewAdapter.this.context, "ادخل تعليق", Toast.LENGTH_LONG).show();
-
-                                    } else {
                                         StringRequest stringRequest1 = new StringRequest(Request.Method.POST, "http://devsinai.com/SocialNetwork/AddComment.php",
                                                 new Response.Listener<String>() {
                                                     @Override
@@ -348,14 +344,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                                                 Map<String, String> params = new HashMap<String, String>();
                                                 params.put("user_id", id_user);
                                                 params.put("post_id", post_id);
-                                                params.put("comment", Comment);
+                                                params.put("comment",COMMENT);;
 
 
                                                 return params;
                                             }
                                         };
                                         Mysingletone.getInstance(RecyclerViewAdapter.this.context).addToRequestque(stringRequest1);
-                                    }
+
                                     dialogeComments1.show();
 
 
@@ -387,8 +383,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 Mysingletone.getInstance(RecyclerViewAdapter.this.context).addToRequestque(stringRequest2);
 
 
-            }
+            }}
         });
+
+
 
 
     }

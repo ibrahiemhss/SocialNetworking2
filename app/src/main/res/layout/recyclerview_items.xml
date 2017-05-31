@@ -123,12 +123,6 @@
                     android:layout_height="wrap_content"
                     android:hint="number"
                     android:id="@+id/LikeCounts" />
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="اضافة تعليق"
-                    android:layout_gravity="center"
-                    android:id="@+id/EditCommentADB"/>
 
                 <TextView
                     android:id="@+id/BtComents"
@@ -144,6 +138,14 @@
                     />
 
             </LinearLayout>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="اضافة تعليق"
+                android:layout_gravity="center"
+                android:id="@+id/EditCommentADB"
+                android:layout_weight="1" />
 
 
         </LinearLayout>
