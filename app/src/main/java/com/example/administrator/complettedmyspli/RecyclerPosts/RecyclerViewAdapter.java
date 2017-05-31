@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -281,6 +282,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             @Override
             public void onClick(View v) {
+                holder.progressbar.setVisibility(View.VISIBLE);
 
 
                 final String COMMENT=holder.editcomment.getText().toString();
@@ -294,6 +296,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                                 try {
                                     JSONArray jsonArray = new JSONArray(response);
                                     JSONObject jsonObject = jsonArray.getJSONObject(0);
+
+                                    holder.progressbar.setVisibility(View.GONE);
+
                                     id_Comment = jsonObject.getString("post_id");
                                     DialogeComments dialogeComments1 = new DialogeComments(context);
                                     dialogeComments1.post_id((models.getId_post()));
@@ -320,7 +325,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                                                         try {
                                                             JSONArray jsonArray = new JSONArray(response);
                                                             JSONObject jsonObject = jsonArray.getJSONObject(0);
-
+                                                            holder.progressbar.setVisibility(View.GONE);
                                                             String Response = jsonObject.getString("response");
                                                             Toast.makeText(RecyclerViewAdapter.this.context, Response, Toast.LENGTH_LONG).show();
 
@@ -418,6 +423,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public ImageView Like;
         public TextView LikeCounts;
         public ImageView LikeB;
+        private ProgressBar progressbar;
+
 
         RecyclerView lstMedicines;
 
@@ -440,6 +447,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             editcomment = (EditText) itemView.findViewById(R.id.EditCommentADB);
             LikeCounts = (TextView) itemView.findViewById(R.id.LikeCounts);
             LikeB = (ImageView) itemView.findViewById(R.id.LikeB);
+            progressbar = (ProgressBar) itemView.findViewById(R.id.progressbarRess);
+
 
         }
     }

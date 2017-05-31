@@ -122,12 +122,12 @@ public class DialogeComments extends Dialog {
             @Override
             public void onClick(View v) {
 
-                final String Comment=editTextComments.getText().toString();
+                final String COMMENT=editTextComments.getText().toString();
                 final String id_user=pref.getString("id","");
                 final String post_id =prefComment.getString("post_id","");
 
 
-                if(Comment.equals("")){
+                if(COMMENT.equals("")){
                     Toast.makeText(DialogeComments.this.c,"ادخل تعليق",Toast.LENGTH_LONG).show();
 
                 }
@@ -161,7 +161,7 @@ public class DialogeComments extends Dialog {
                             Map<String, String> params = new HashMap<String, String>();
                             params.put("user_id", id_user);
                             params.put("post_id", post_id);
-                            params.put("comment", Comment);
+                            params.put("comment", COMMENT);
 
 
                             return params;
