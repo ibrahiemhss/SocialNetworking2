@@ -277,30 +277,26 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 
         //////////////////////////////////////////////
-        final DialogeComments dialogeComments = new DialogeComments(context);
         holder.BtComents.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+
+
                 final String COMMENT=holder.editcomment.getText().toString();
+                holder.editcomment.setVisibility(View.VISIBLE);
 
-                if(COMMENT.equals("")){
-                    Toast.makeText(RecyclerViewAdapter.this.context, "ادخل تعليق", Toast.LENGTH_LONG).show();
-
-                }else{
                 final StringRequest stringRequest2 = new StringRequest(Request.Method.POST, "http://devsinai.com/SocialNetwork/GetIdComments.php",
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
 
-                                DialogeComments dialogeComments1 = new DialogeComments(context);
                                 try {
                                     JSONArray jsonArray = new JSONArray(response);
                                     JSONObject jsonObject = jsonArray.getJSONObject(0);
                                     id_Comment = jsonObject.getString("post_id");
-
+                                    DialogeComments dialogeComments1 = new DialogeComments(context);
                                     dialogeComments1.post_id((models.getId_post()));
-
                                     prefComment = context.getSharedPreferences("prefCommentId.conf", Context.MODE_PRIVATE);
                                     id_Comment = prefComment.getString("post_id", "post_id");
 
@@ -309,10 +305,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                                     editorComment.putString("post_id", jsonObject.getString("post_id"));
 
                                     editorComment.commit();
-                                    final String Comment = holder.editcomment.getText().toString();
                                     final String id_user = pref.getString("id", "");
                                     final String post_id = prefComment.getString("post_id", "");
+                                    if(COMMENT.equals("")){
+                                        Toast.makeText(RecyclerViewAdapter.this.context, "ادخل تعليق", Toast.LENGTH_LONG).show();
+                                        dialogeComments1.show();
 
+                                    }else {
 
                                         StringRequest stringRequest1 = new StringRequest(Request.Method.POST, "http://devsinai.com/SocialNetwork/AddComment.php",
                                                 new Response.Listener<String>() {
@@ -344,16 +343,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                                                 Map<String, String> params = new HashMap<String, String>();
                                                 params.put("user_id", id_user);
                                                 params.put("post_id", post_id);
-                                                params.put("comment",COMMENT);;
-
+                                                params.put("comment", COMMENT);
+                                                ;
 
                                                 return params;
                                             }
                                         };
                                         Mysingletone.getInstance(RecyclerViewAdapter.this.context).addToRequestque(stringRequest1);
 
-                                    dialogeComments1.show();
-
+                                        dialogeComments1.show();
+                                    }
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -383,7 +382,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 Mysingletone.getInstance(RecyclerViewAdapter.this.context).addToRequestque(stringRequest2);
 
 
-            }}
+            }
         });
 
 
