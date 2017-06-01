@@ -42,7 +42,8 @@
 
         <activity android:name=".ShowPosts" />
         <activity android:name=".Comments.Comments" />
-        <activity android:name=".Retrofit.showPostRetrofit"></activity>
+        <activity android:name=".Retrofit.showPostRetrofit" />
+        <activity android:name=".Likes.LikesDialoge"></activity>
     </application>
 
 </manifest>

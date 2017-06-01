@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -27,6 +28,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.administrator.complettedmyspli.Mysingletone;
 import com.example.administrator.complettedmyspli.R;
+import com.example.administrator.complettedmyspli.Retrofit.Models.CommentsRETF;
+import com.example.administrator.complettedmyspli.Retrofit.NetWork.APICleint;
+import com.example.administrator.complettedmyspli.Retrofit.Servise.APIService;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,6 +40,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 /**
  * Created by Administrator on 24/05/2017.
@@ -77,6 +84,7 @@ public class DialogeComments extends Dialog {
     EditText editTextComments;
     ProgressBar progressBar;
 
+    final String TAAG=this.getClass().getName();
 
     public DialogeComments(Context a) {
         super(a);
@@ -101,20 +109,19 @@ public class DialogeComments extends Dialog {
 
         recyclerView=(RecyclerView)findViewById(R.id.RvListComent) ;
         Mylist = new ArrayList<>();
-        JSON_DATA_WEB_CALL();
+       JSON_DATA_WEB_CALL();
 
         //swip = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
         recyclerView.setHasFixedSize(true);
         recyclerViewlayoutManager = new LinearLayoutManager(c);
         recyclerView.setLayoutManager(recyclerViewlayoutManager);
-        recyclerViewadapterComment = new CommentAdapter(Mylist);
+      //  recyclerViewadapterComment = new CommentAdapter(Mylist);
         recyclerView.setAdapter(recyclerViewadapterComment);
         // textComent = (TextView) findViewById(R.id.textComent);
         // editcomment = (EditText) findViewById(R.id.editcomment);
         pref=c.getSharedPreferences("Login2.conf", Context.MODE_PRIVATE);
         id = pref.getString("id","id");
         editor=pref.edit();
-
         prefComment =c.getSharedPreferences("prefCommentId.conf", Context.MODE_PRIVATE);
         id_Comment = prefComment.getString("post_id", "post_id");
         editorComment = prefComment.edit();
@@ -122,6 +129,7 @@ public class DialogeComments extends Dialog {
         txtAddComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
 
                 progressBar.setVisibility(View.VISIBLE);
                 final String COMMENT=editTextComments.getText().toString();
@@ -164,7 +172,49 @@ public class DialogeComments extends Dialog {
                 }}
         });
 
-    }  public void JSON_DATA_WEB_CALL() {
+    }
+    private void getCOMMENTSDetails(){
+       try{
+
+           final APIService service= APICleint.getClient().create(APIService.class);
+
+           Call<List<CommentsRETF>> call=service.getCOMMENTSDetails();
+           call.enqueue(new Callback<List<CommentsRETF>>() {
+               @Override
+               public void onResponse(Call<List<CommentsRETF>> call, retrofit2.Response<List<CommentsRETF>> response) {
+                  String post_id= service.post_id("post_id");
+
+                   List<CommentsRETF> commentsRETFs=response.body();
+                   editorComment.putString("post_id",post_id);
+                 recyclerView=(RecyclerView)findViewById(R.id.RvListComent) ;
+                   Mylist = new ArrayList<>();
+                   // JSON_DATA_WEB_CALL();
+
+                   //swip = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
+                   recyclerView.setHasFixedSize(true);
+                   recyclerViewlayoutManager = new LinearLayoutManager(c);
+                   recyclerView.setLayoutManager(recyclerViewlayoutManager);
+                   recyclerViewadapterComment = new CommentAdapter(commentsRETFs);
+                   recyclerView.setAdapter(recyclerViewadapterComment);
+
+               }
+
+               @Override
+               public void onFailure(Call<List<CommentsRETF>> call, Throwable t) {
+
+                   Log.d("onFailure",t.toString());
+               }
+           });
+
+       }
+       catch (Exception  e){
+
+       }
+
+    }
+
+
+    public void JSON_DATA_WEB_CALL() {
 
         jsonArrayRequest = new JsonArrayRequest(URLcommest,
 
