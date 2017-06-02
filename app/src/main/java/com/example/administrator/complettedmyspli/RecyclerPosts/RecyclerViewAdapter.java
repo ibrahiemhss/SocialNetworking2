@@ -356,10 +356,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
-                        if (error != null) {
-                            Toast.makeText(RecyclerViewAdapter.this.context, "somthing wrong while delleting item", Toast.LENGTH_LONG).show();
 
-                        }
                     }
                 }) {
                     @Override
