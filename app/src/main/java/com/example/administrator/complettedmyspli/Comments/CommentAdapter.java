@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.administrator.complettedmyspli.R;
+import com.example.administrator.complettedmyspli.Retrofit.Models.CommentsRETF;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyHolder
         this.Mylist=mylist;
     }
 
-    public CommentAdapter(List<ListComments> mylist) {
+   /* public CommentAdapter(List<ListComments> mylist) {
+    }
+*/
+    public CommentAdapter(List<CommentsRETF> commentsRETFs) {
     }
 
 

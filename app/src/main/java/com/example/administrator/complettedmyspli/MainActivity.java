@@ -7,10 +7,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatButton;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -36,14 +38,15 @@ public class MainActivity extends AppCompatActivity /*implements CompoundButton.
 
      EditText editTextUsername;
     EditText editTextPassword;
-     Button buttonLogin,btnRegister,gotologin2,goToPostRecycler;
+     Button gotologin2,goToPostRecycler;
+    TextView btnRegister;
      String username;
     String password;
     String id;
     AlertDialog.Builder builder;
     SharedPreferences pref;
     private CheckBox rememberme;
-
+    AppCompatButton buttonLogin;
     SharedPreferences.Editor editor;
     boolean checkFlag;
 
@@ -56,22 +59,22 @@ public class MainActivity extends AppCompatActivity /*implements CompoundButton.
         editTextUsername = (EditText) findViewById(R.id.username_txt);
         editTextPassword = (EditText) findViewById(R.id.password_txt);
 
-        buttonLogin = (Button) findViewById(R.id.login_btn);
-        btnRegister= (Button) findViewById(R.id.register_btn);
-        gotologin2= (Button) findViewById(R.id.gotologin2);
+        buttonLogin = (AppCompatButton) findViewById(R.id.login_btn);
+        btnRegister= (TextView) findViewById(R.id.register_btn);
+       // gotologin2= (Button) findViewById(R.id.gotologin2);
 
 
-        rememberme = (CheckBox) findViewById(R.id.rememberme);
+     //   rememberme = (CheckBox) findViewById(R.id.rememberme);
 
       //  rememberme.setOnCheckedChangeListener(this);
         final DialogeComments dialogeComments=new DialogeComments(this);
-        checkFlag=rememberme.isChecked();
-        gotologin2.setOnClickListener(new View.OnClickListener() {
+//        checkFlag=rememberme.isChecked();
+       /* gotologin2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialogeComments.show();
             }
-        });
+        });*/
 
 
 

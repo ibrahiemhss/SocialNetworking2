@@ -8,7 +8,7 @@ public class Models {
 
     String textComent;
     String editcomment;
-    String Likes;
+    boolean isLiked;
     String name;
     String subject;
     public   String ImageItems;
@@ -41,12 +41,12 @@ public class Models {
         this.editcomment = editcomment;
     }
 
-    public String getLikes() {
-        return Likes;
+    public boolean getisLiked() {
+        return isLiked;
     }
 
-    public void setLikes(String likes) {
-        Likes = likes;
+    public void setisLiked(boolean isLiked) {
+        this.isLiked = isLiked;
     }
 
 
