@@ -4,8 +4,8 @@
     android:id="@+id/activity_likes_dialoge"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:minHeight="400dp"
-    android:minWidth="300dp"
+    android:minHeight="300dp"
+    android:minWidth="150dp"
     tools:context="com.example.administrator.complettedmyspli.Comments.Comments">
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"

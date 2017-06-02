@@ -2,7 +2,6 @@ package com.example.administrator.complettedmyspli.RecyclerPosts;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -26,7 +25,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
-import com.example.administrator.complettedmyspli.Comments.Comments;
 import com.example.administrator.complettedmyspli.Comments.DialogeComments;
 import com.example.administrator.complettedmyspli.Likes.LikesDialoge;
 import com.example.administrator.complettedmyspli.Likes.LikesModels;
@@ -119,22 +117,67 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.BtComents.setText(models.getTextComent());
         holder.editcomment.setText(models.getTextComent());
         holder.LikeCounts.setText(models.getLikeCounts());
+        final String text_user_id = holder.textId.getText().toString();
+        final String post_id = holder.text_id_post.getText().toString();
+
         holder.LikeCounts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                LikesDialoge likesddddialoge = new LikesDialoge(context);
+
+
+                final StringRequest stringRequest2 = new StringRequest(Request.Method.POST, "http://devsinai.com/SocialNetwork/getIdLikes.php",
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+
+                                try {
+                                    JSONArray jsonArray = new JSONArray(response);
+                                    JSONObject jsonObject = jsonArray.getJSONObject(0);
+                                    LikesDialoge likesddddialoge = new LikesDialoge(context);
+                                    String i =modelsList.get(position).getId_post();
+                                    likesddddialoge.post_id(i);
+                                    holder.progressbar.setVisibility(View.GONE);
+                                    Log.v("yuyuyu",response);
+                                    id_Comment = jsonObject.getString("post_id");
 
                                     prefComment = context.getSharedPreferences("prefCommentId.conf", Context.MODE_PRIVATE);
                                     id_Comment = prefComment.getString("post_id", "post_id");
 
                                     editorComment = prefComment.edit();
 
+                                    editorComment.putString("post_id", jsonObject.getString("post_id"));
+
                                     editorComment.commit();
-                               //     likesddddialoge.show();
-                Log.v("nmsdd",id_Comment);
-                Intent intent = new Intent(RecyclerViewAdapter.this.context, Comments.class);
-                context.startActivity(intent);
+
+                                    final String post_id = prefComment.getString("post_id", "");
+                                    likesddddialoge.show();
+
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+
+                    }
+                }) {
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+
+                        Map<String, String> params = new HashMap<String, String>();
+                        params.put("post_id", post_id);
+
+
+                        return params;
+                    }
+                };
+
+                Mysingletone.getInstance(RecyclerViewAdapter.this.context).addToRequestque(stringRequest2);
+
 
 
             }
@@ -213,8 +256,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 //        holder.editcomment.setText(models.getEditcomment());
 
 
-        final String text_user_id = holder.textId.getText().toString();
-        final String post_id = holder.text_id_post.getText().toString();
         if (id.equals(text_user_id)) {
             holder.textId.setVisibility(View.VISIBLE);
 

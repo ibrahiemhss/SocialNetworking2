@@ -58,10 +58,10 @@ public class LikesDialoge  extends Dialog {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_likes_dialoge);
 
+
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        getWindow().setAttributes(params);
-
+        getWindow().setAttributes((WindowManager.LayoutParams) params);
 
         JSON_DATA_WEB_CALL();
 
@@ -72,7 +72,7 @@ public class LikesDialoge  extends Dialog {
         recyclerView.setLayoutManager(recyclerViewlayoutManager);
         recyclerViewadapterLikes = new LikesAdapter(Likelist);
         recyclerView.setAdapter(recyclerViewadapterLikes);
-        recyclerView.setAdapter(adapter);
+
 
         pref=context.getSharedPreferences("Login2.conf", Context.MODE_PRIVATE);
         id = pref.getString("id","id");
@@ -158,6 +158,11 @@ public class LikesDialoge  extends Dialog {
         recyclerView.setAdapter(recyclerViewadapterLikes);
     }
 
+    String id_post;
+
+    public void post_id(String id_post){
+        this.id_post=id_post;
+    }
 
 
 

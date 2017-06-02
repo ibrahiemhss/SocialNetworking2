@@ -46,7 +46,7 @@ public class Comments extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_likes_dialoge);
+       // setContentView(R.layout.activity_likes_dialoge);
 
         JSON_DATA_WEB_CALL();
 
