@@ -6,6 +6,7 @@
 
     android:minHeight="400dp"
     android:minWidth="300dp"
+    android:background="@drawable/alpha"
     android:orientation="vertical">
 
     <ProgressBar

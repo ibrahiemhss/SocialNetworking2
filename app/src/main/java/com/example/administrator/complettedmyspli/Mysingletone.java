@@ -35,8 +35,12 @@ public class Mysingletone {
         }return mInstance;
     }
     public <T>void addToRequestque(Request<T> request){
+        System.setProperty("http.keepAlive", "false");
+
         DefaultRetryPolicy  retryPolicy = new DefaultRetryPolicy(0, -1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-        request.setRetryPolicy(retryPolicy);
+     request.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 0,
+             DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
         requestQueue.add(request);
     }
 }

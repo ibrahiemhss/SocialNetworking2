@@ -257,10 +257,11 @@ public class DialogeComments extends Dialog {
             try {
                 json = array.getJSONObject(i);
                 prefComment =c.getSharedPreferences("prefCommentId.conf", Context.MODE_PRIVATE);
-                id_Comment = prefComment.getString("post_id", "post_id");
+
+                id_Comment = prefComment.getString("post_id", id_post);
                 editorComment = prefComment.edit();
 
-                editorComment.putString("post_id", json.getString("post_id"));
+              //  editorComment.putString("post_id", json.getString("post_id"));
 
 ////              id2 = pref.getString("user_id", "user_id");
                 final String post_id=json.getString("post_id").toString();
@@ -269,7 +270,7 @@ public class DialogeComments extends Dialog {
                     modelsComment.setTextNamesss(json.getString("name"));
 
                     modelsComment.setTextCommentsss(json.getString("comment"));
-                    modelsComment.setTextPost_id(json.getString("post_id"));
+                   // modelsComment.setTextPost_id(json.getString("post_id"));
 
 
 

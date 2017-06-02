@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -182,9 +183,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                         Map<String, String> params = new HashMap<>();
 
-                        Log.v("PARAMS","user_id : "+id+ " , post_id :"+models.getId_post());
+                     //   Log.v("PARAMS","user_id : "+id+ " , post_id :"+models.getId_post());
                         params.put("user_id", id);
                         params.put("post_id", models.getId_post());
+
                         // Add this line to send USER ID to server
 // Add this line to send USER ID to server
 
@@ -200,6 +202,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 
                 requestQueue.add(stringRequest);*/
+                stringRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
                 Mysingletone.getInstance(RecyclerViewAdapter.this.context).addToRequestque(stringRequest);
 
@@ -317,12 +320,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             @Override
             public void onClick(View v) {
-                holder.progressbar.setVisibility(View.VISIBLE);
-
-
-                final String COMMENT=holder.editcomment.getText().toString();
-                holder.editcomment.setVisibility(View.VISIBLE);
-
                 final StringRequest stringRequest2 = new StringRequest(Request.Method.POST, "http://devsinai.com/SocialNetwork/GetIdComments.php",
                         new Response.Listener<String>() {
                             @Override
@@ -331,12 +328,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                                 try {
                                     JSONArray jsonArray = new JSONArray(response);
                                     JSONObject jsonObject = jsonArray.getJSONObject(0);
-
+                                    DialogeComments dialogeComments1 = new DialogeComments(context);
+                                    String i =modelsList.get(position).getId_post();
+                                    dialogeComments1.post_id(i);
                                     holder.progressbar.setVisibility(View.GONE);
 
                                     id_Comment = jsonObject.getString("post_id");
-                                    DialogeComments dialogeComments1 = new DialogeComments(context);
-                                    dialogeComments1.post_id((models.getId_post()));
+
                                     prefComment = context.getSharedPreferences("prefCommentId.conf", Context.MODE_PRIVATE);
                                     id_Comment = prefComment.getString("post_id", "post_id");
 
@@ -345,54 +343,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                                     editorComment.putString("post_id", jsonObject.getString("post_id"));
 
                                     editorComment.commit();
-                                    final String id_user = pref.getString("id", "");
+
                                     final String post_id = prefComment.getString("post_id", "");
-                                    if(COMMENT.equals("")){
-                                        Toast.makeText(RecyclerViewAdapter.this.context, "ادخل تعليق", Toast.LENGTH_LONG).show();
-                                        dialogeComments1.show();
+                                    dialogeComments1.show();
 
-                                    }else {
-
-                                        StringRequest stringRequest1 = new StringRequest(Request.Method.POST, "http://devsinai.com/SocialNetwork/AddComment.php",
-                                                new Response.Listener<String>() {
-                                                    @Override
-                                                    public void onResponse(String response) {
-                                                        try {
-                                                            JSONArray jsonArray = new JSONArray(response);
-                                                            JSONObject jsonObject = jsonArray.getJSONObject(0);
-                                                            holder.progressbar.setVisibility(View.GONE);
-                                                            String Response = jsonObject.getString("response");
-                                                            Toast.makeText(RecyclerViewAdapter.this.context, Response, Toast.LENGTH_LONG).show();
-
-                                                        } catch (JSONException e) {
-                                                            e.printStackTrace();
-                                                        }
-
-                                                    }
-                                                }, new Response.ErrorListener() {
-                                            @Override
-                                            public void onErrorResponse(VolleyError error) {
-                                                Toast.makeText(RecyclerViewAdapter.this.context, "Error", Toast.LENGTH_LONG).show();
-                                                VolleyLog.e("Error: ", error.getMessage());
-                                                error.printStackTrace();
-                                            }
-                                        }) {
-                                            @Override
-                                            protected Map<String, String> getParams() throws AuthFailureError {
-
-                                                Map<String, String> params = new HashMap<String, String>();
-                                                params.put("user_id", id_user);
-                                                params.put("post_id", post_id);
-                                                params.put("comment", COMMENT);
-                                                ;
-
-                                                return params;
-                                            }
-                                        };
-                                        Mysingletone.getInstance(RecyclerViewAdapter.this.context).addToRequestque(stringRequest1);
-
-                                        dialogeComments1.show();
-                                    }
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -420,6 +374,61 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 };
 
                 Mysingletone.getInstance(RecyclerViewAdapter.this.context).addToRequestque(stringRequest2);
+
+
+
+                final String id_user = pref.getString("id", "");
+
+                holder.progressbar.setVisibility(View.VISIBLE);
+
+
+                final String COMMENT=holder.editcomment.getText().toString();
+                holder.editcomment.setVisibility(View.VISIBLE);
+                if(COMMENT.equals("")){
+
+
+                }else {
+
+                    StringRequest stringRequest1 = new StringRequest(Request.Method.POST, "http://devsinai.com/SocialNetwork/AddComment.php",
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    try {
+                                        JSONArray jsonArray = new JSONArray(response);
+                                        JSONObject jsonObject = jsonArray.getJSONObject(0);
+                                        holder.progressbar.setVisibility(View.GONE);
+                                        String Response = jsonObject.getString("response");
+                                        Toast.makeText(RecyclerViewAdapter.this.context, Response, Toast.LENGTH_LONG).show();
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(RecyclerViewAdapter.this.context, "Error", Toast.LENGTH_LONG).show();
+                            VolleyLog.e("Error: ", error.getMessage());
+                            error.printStackTrace();
+                        }
+                    }) {
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+
+                            Map<String, String> params = new HashMap<String, String>();
+                            params.put("user_id", id_user);
+                            params.put("post_id", post_id);
+                            params.put("comment", COMMENT);
+                            ;
+
+                            return params;
+                        }
+                    };
+                    Mysingletone.getInstance(RecyclerViewAdapter.this.context).addToRequestque(stringRequest1);
+
+
+                }
 
 
             }

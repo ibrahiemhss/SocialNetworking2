@@ -75,7 +75,7 @@ public class Comments extends AppCompatActivity {
         }*/
         }
     public void JSON_DATA_WEB_CALL() {
-        editorComment = prefComment.edit();
+      // bbnnnnnnnnnnnnnnn  editorComment = prefComment.edit();
         HashMap data = new HashMap();
         data.put("post_id", id_Comment);
         PostResponseAsyncTask task = new PostResponseAsyncTask(Comments.this, data, new AsyncResponse() {
