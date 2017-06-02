@@ -342,7 +342,69 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                                 break;
                             case R.id.menu2:
-                                //handle menu2 click
+                                AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(context);
+
+                                // Setting Dialog Title
+                                alertDialog2.setTitle("Confirm Delete...");
+
+                                // Setting Dialog Message
+                                alertDialog2.setMessage("Are you sure you want delete this?");
+
+                                // Setting Icon to Dialog
+                                alertDialog2.setIcon(R.drawable.delete);
+
+                                // Setting Positive "Yes" Button
+                                alertDialog2.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        String delet_url = "http://devsinai.com/SocialNetwork/DeletePosts.php";
+
+                                        final StringRequest stringRequest = new StringRequest(Request.Method.POST, delet_url,
+                                                new Response.Listener<String>() {
+                                                    @Override
+                                                    public void onResponse(String response) {
+                                                        //   Log.d(TAAG,response);
+                                                        if (response.equals("Record Deleted Successfully")) {
+                                                            Toast.makeText(RecyclerViewAdapter.this.context, "deleted success", Toast.LENGTH_LONG).show();
+                                                        } else {
+                                                            Toast.makeText(RecyclerViewAdapter.this.context, "error while delleting item", Toast.LENGTH_LONG).show();
+                                                        }
+                                                    }
+                                                }, new Response.ErrorListener() {
+                                            @Override
+                                            public void onErrorResponse(VolleyError error) {
+
+                                                if (error != null) {
+                                                    Toast.makeText(RecyclerViewAdapter.this.context, "somthing wrong while delleting item", Toast.LENGTH_LONG).show();
+
+                                                }
+                                            }
+                                        }) {
+                                            @Override
+                                            protected Map<String, String> getParams() throws AuthFailureError {
+
+                                                Map<String, String> param = new HashMap<String, String>();
+                                                param.put("post_id", post_id);
+                                                param.put("user_id", text_user_id);
+                                                return param;
+                                            }
+                                        };
+
+                                        Mysingletone.getInstance(RecyclerViewAdapter.this.context).addToRequestque(stringRequest);
+
+
+                                    }
+                                });
+
+                                // Setting Negative "NO" Button
+                                alertDialog2.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+
+                                    }
+                                });
+
+                                // Showing Alert Message
+                                alertDialog2.show();
                                 break;
 
                         }
