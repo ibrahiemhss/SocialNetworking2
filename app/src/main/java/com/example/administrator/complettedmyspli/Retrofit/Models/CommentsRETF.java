@@ -1,11 +1,8 @@
 package com.example.administrator.complettedmyspli.Retrofit.Models;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 public class CommentsRETF {
 
-    @SerializedName("comment_id")
+  /*  @SerializedName("comment_id")
     @Expose
     private String commentId;
     @SerializedName("comment")
@@ -21,21 +18,21 @@ public class CommentsRETF {
     @Expose
     private String name;
 
-    /**
+    *//**
      * No args constructor for use in serialization
      *
-     */
+     *//*
     public CommentsRETF() {
     }
 
-    /**
+    *//**
      *
      * @param name
      * @param userId
      * @param comment
      * @param postId
      * @param commentId
-     */
+     *//*
     public CommentsRETF(String commentId, String comment, String userId, String postId, String name) {
         super();
         this.commentId = commentId;
@@ -83,6 +80,6 @@ public class CommentsRETF {
 
     public void setName(String name) {
         this.name = name;
-    }
+    }*/
 
 }

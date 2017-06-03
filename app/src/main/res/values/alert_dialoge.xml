@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Widget.Sphinx.Button.Borderless" parent="@android:style/Widget.Holo.Button.Borderless">
+        <item name="android:textColor">@android:color/holo_blue_light</item>
+        <item name="android:textAppearance">@style/TextAppearance.Sphinx.DialogButton</item>
+    </style>
+
+    <style name="TextAppearance.Sphinx.DialogButton" parent="@android:style/TextAppearance.Holo.Medium"></style>
+
+    <style name="Sphinx.ButtonBar.AlertDialog" parent="@android:style/Holo.ButtonBar.AlertDialog">
+        <item name="android:background">@android:color/holo_purple</item>
+    </style>
+</resources>

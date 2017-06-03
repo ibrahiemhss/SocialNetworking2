@@ -120,6 +120,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         final String text_user_id = holder.textId.getText().toString();
         final String post_id = holder.text_id_post.getText().toString();
 
+
         holder.LikeCounts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -275,7 +276,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                         switch (item.getItemId()) {
                             case R.id.menu1:
 
-                                AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+                                android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(context);
 
                                 // Setting Dialog Title
                                 alertDialog.setTitle("Confirm Delete...");
@@ -284,7 +285,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                                 alertDialog.setMessage("Are you sure you want delete this?");
 
                                 // Setting Icon to Dialog
-                                alertDialog.setIcon(R.drawable.delete);
 
                                 // Setting Positive "Yes" Button
                                 alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
@@ -342,56 +342,67 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                                 break;
                             case R.id.menu2:
-                                AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(context);
+
+                                android.app.AlertDialog.Builder alertDialog2 = new android.app.AlertDialog.Builder(context);
 
                                 // Setting Dialog Title
-                                alertDialog2.setTitle("Confirm Delete...");
+                                alertDialog2.setTitle("Confirm Ubdate...");
 
                                 // Setting Dialog Message
-                                alertDialog2.setMessage("Are you sure you want delete this?");
+                                alertDialog2.setMessage("Are you sure you want Ubdate this?");
 
                                 // Setting Icon to Dialog
-                                alertDialog2.setIcon(R.drawable.delete);
 
                                 // Setting Positive "Yes" Button
                                 alertDialog2.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-                                        String delet_url = "http://devsinai.com/SocialNetwork/DeletePosts.php";
 
-                                        final StringRequest stringRequest = new StringRequest(Request.Method.POST, delet_url,
-                                                new Response.Listener<String>() {
+                                        holder.editubdate.setVisibility(View.VISIBLE);
+                                        holder.editubdate.setText(models.getEditcomment());
+                                        holder.textUbdatePost.setVisibility(View.VISIBLE);
+                                        holder.textUbdatePost.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                String ubdate_url = "http://devsinai.com/SocialNetwork/ubdatePosts.php";
+                                                final String ubdate_post = holder.editubdate.getText().toString();
+                                                final StringRequest stringRequest4 = new StringRequest(Request.Method.POST, ubdate_url,
+                                                        new Response.Listener<String>() {
+                                                            @Override
+                                                            public void onResponse(String response) {
+                                                                //   Log.d(TAAG,response);
+                                                                if (response.equals("Ubdating_Success")) {
+                                                                    Toast.makeText(RecyclerViewAdapter.this.context, "Ubdating_Success", Toast.LENGTH_LONG).show();
+                                                                } else {
+                                                                    Toast.makeText(RecyclerViewAdapter.this.context, "fiald_Ubdating", Toast.LENGTH_LONG).show();
+                                                                }
+                                                            }
+                                                        }, new Response.ErrorListener() {
                                                     @Override
-                                                    public void onResponse(String response) {
-                                                        //   Log.d(TAAG,response);
-                                                        if (response.equals("Record Deleted Successfully")) {
-                                                            Toast.makeText(RecyclerViewAdapter.this.context, "deleted success", Toast.LENGTH_LONG).show();
-                                                        } else {
-                                                            Toast.makeText(RecyclerViewAdapter.this.context, "error while delleting item", Toast.LENGTH_LONG).show();
+                                                    public void onErrorResponse(VolleyError error) {
+
+                                                        if (error != null) {
+                                                            Toast.makeText(RecyclerViewAdapter.this.context, "somthing wrong while Ubdating item", Toast.LENGTH_LONG).show();
+
                                                         }
                                                     }
-                                                }, new Response.ErrorListener() {
-                                            @Override
-                                            public void onErrorResponse(VolleyError error) {
+                                                }) {
+                                                    @Override
+                                                    protected Map<String, String> getParams() throws AuthFailureError {
 
-                                                if (error != null) {
-                                                    Toast.makeText(RecyclerViewAdapter.this.context, "somthing wrong while delleting item", Toast.LENGTH_LONG).show();
+                                                        Map<String, String> param = new HashMap<String, String>();
+                                                        param.put("post_id", post_id);
+                                                        param.put("postcontent",ubdate_post);
+                                                        return param;
+                                                    }
+                                                };
 
-                                                }
+                                                Mysingletone.getInstance(RecyclerViewAdapter.this.context).addToRequestque(stringRequest4);
+
+
                                             }
-                                        }) {
-                                            @Override
-                                            protected Map<String, String> getParams() throws AuthFailureError {
+                                        });
 
-                                                Map<String, String> param = new HashMap<String, String>();
-                                                param.put("post_id", post_id);
-                                                param.put("user_id", text_user_id);
-                                                return param;
-                                            }
-                                        };
-
-                                        Mysingletone.getInstance(RecyclerViewAdapter.this.context).addToRequestque(stringRequest);
-
-
+                                        dialog.dismiss();
                                     }
                                 });
 
@@ -568,6 +579,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public TextView LikeCounts;
         public ImageView LikeB;
         private ProgressBar progressbar;
+        private TextView textUbdatePost;
+        private EditText editubdate;
 
 
         RecyclerView lstMedicines;
@@ -592,6 +605,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             LikeCounts = (TextView) itemView.findViewById(R.id.LikeCounts);
             LikeB = (ImageView) itemView.findViewById(R.id.LikeB);
             progressbar = (ProgressBar) itemView.findViewById(R.id.progressbarRess);
+            editubdate = (EditText) itemView.findViewById(R.id.editubdate);
+            textUbdatePost = (TextView) itemView.findViewById(R.id.textUbdatePost);
+
+
 
 
 

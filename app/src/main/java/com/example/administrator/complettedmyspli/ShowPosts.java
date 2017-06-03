@@ -156,6 +156,8 @@ public class ShowPosts extends AppCompatActivity {
                 GetDataAdapter2.setId_user(json.getString(JSON_ID));
                 GetDataAdapter2.setId_post(json.getString(JSON_ID_POST));
                 String isliked = json.getString(JSON_isLiked);
+                GetDataAdapter2.setEditubdate(json.getString("postcontent"));
+
                 Log.v("ARRAY_RESPONSE",isliked);
                 if (isliked.equals("true")) {
                     GetDataAdapter2.setisLiked(true);

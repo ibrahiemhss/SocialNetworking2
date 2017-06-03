@@ -14,6 +14,33 @@ public class Models {
     public   String ImageItems;
     String timeapost;
     String id_post;
+String textUbdatePost;
+
+    public String getTextUbdatePost() {
+        return textUbdatePost;
+    }
+
+    public void setTextUbdatePost(String textUbdatePost) {
+        this.textUbdatePost = textUbdatePost;
+    }
+
+    String editubdate;
+
+    public boolean isLiked() {
+        return isLiked;
+    }
+
+    public void setLiked(boolean liked) {
+        isLiked = liked;
+    }
+
+    public String getEditubdate() {
+        return editubdate;
+    }
+
+    public void setEditubdate(String editubdate) {
+        this.editubdate = editubdate;
+    }
 
     String LikeCounts;
 
