@@ -1,19 +1,16 @@
 package com.example.administrator.complettedmyspli.FirebaseMessags;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import com.google.firebase.iid.FirebaseInstanceId;
-
-import java.io.IOException;
-
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
 
 /**
  * Created by Administrator on 21/06/2017.
  */
 
 public class FirebaseInstanceIdServices extends com.google.firebase.iid.FirebaseInstanceIdService {
+    SharedPreferences prefToken;
 
     @Override
     public void onTokenRefresh() {
@@ -21,24 +18,17 @@ public class FirebaseInstanceIdServices extends com.google.firebase.iid.Firebase
         String token = FirebaseInstanceId.getInstance().getToken();
 
         registerToken(token);
+        prefToken=getSharedPreferences("register.conf", Context.MODE_PRIVATE);
+
+
+        prefToken = getApplicationContext().getSharedPreferences("register.conf", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editorToken = prefToken.edit();
+        editorToken.putString("Token", token);
+        editorToken.commit();
+
     }
 
     private void registerToken(String token) {
 
-        OkHttpClient client = new OkHttpClient();
-        RequestBody body = new FormBody.Builder()
-                .add("Token",token)
-                .build();
-
-        Request request = new Request.Builder()
-                .url("http://devsinai.com/SocialNetwork/register.php")
-                .post(body)
-                .build();
-
-        try {
-            client.newCall(request).execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }
