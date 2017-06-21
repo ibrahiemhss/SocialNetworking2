@@ -23,6 +23,8 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.example.administrator.complettedmyspli.Comments.DialogeComments;
 import com.example.administrator.complettedmyspli.registrationwithvolley.VRegestraion;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,6 +36,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity /*implements CompoundButton.OnCheckedChangeListener*/ {
 
      private final static String  LOGIN_URL = "http://devsinai.com/SocialNetwork/login.inc.php";
+    private final static String  NATIFACATION_URL = "http://devsinai.com/SocialNetwork/fcm_insert.php";
 
 
      EditText editTextUsername;
@@ -43,25 +46,38 @@ public class MainActivity extends AppCompatActivity /*implements CompoundButton.
      String username;
     String password;
     String id;
+    Button natfication;
     AlertDialog.Builder builder;
-    SharedPreferences pref;
+    SharedPreferences pref,prefToken;
     private CheckBox rememberme;
     AppCompatButton buttonLogin;
-    SharedPreferences.Editor editor;
+    SharedPreferences.Editor editor,editorToken;
     boolean checkFlag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        FirebaseMessaging.getInstance().subscribeToTopic("tamam");
+        FirebaseInstanceId.getInstance().getToken();
 
+
+      //  startService(new Intent(this, RegistrationService.class));
 
         editTextUsername = (EditText) findViewById(R.id.username_txt);
         editTextPassword = (EditText) findViewById(R.id.password_txt);
 
         buttonLogin = (AppCompatButton) findViewById(R.id.login_btn);
         btnRegister= (TextView) findViewById(R.id.register_btn);
-       // gotologin2= (Button) findViewById(R.id.gotologin2);
+        natfication= (Button) findViewById(R.id.natfication);
+        natfication.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Intent intent=new Intent(MainActivity.this, GCMMain.class);
+              //  startActivity(intent);
+            }
+        });
+        // gotologin2= (Button) findViewById(R.id.gotologin2);
 
 
      //   rememberme = (CheckBox) findViewById(R.id.rememberme);

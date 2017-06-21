@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">ComplettedMySpli</string>
+    <string name="FCM_PREF">com.example.administrator.complettedmyspli.fcm_pref</string>
+    <string name="FCM_TOKEN">com.example.administrator.complettedmyspli.fcm_token</string>
+
+
 </resources>

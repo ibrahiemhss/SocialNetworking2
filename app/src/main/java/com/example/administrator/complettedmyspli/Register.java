@@ -1,11 +1,13 @@
 package com.example.administrator.complettedmyspli;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.administrator.complettedmyspli.FirebaseMessags.FirebaseInstanceIdServices;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,7 +21,7 @@ public class Register extends AppCompatActivity {
     EditText username,Password,adress,email;
     Button register;
     String finalurl;
-
+    FirebaseInstanceIdServices firebaseInstanceIdService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

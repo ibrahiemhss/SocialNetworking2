@@ -62,5 +62,11 @@ android:fitsSystemWindows="true">
         android:gravity="center"
         android:textSize="16dip"/>
 
+    <Button
+        android:text="natfication"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/natfication" />
+
 </LinearLayout>
 </ScrollView>

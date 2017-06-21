@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -28,9 +27,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.administrator.complettedmyspli.Mysingletone;
 import com.example.administrator.complettedmyspli.R;
-import com.example.administrator.complettedmyspli.Retrofit.Models.CommentsRETF;
-import com.example.administrator.complettedmyspli.Retrofit.NetWork.APICleint;
-import com.example.administrator.complettedmyspli.Retrofit.Servise.APIService;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,9 +36,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import retrofit2.Call;
-import retrofit2.Callback;
 
 /**
  * Created by Administrator on 24/05/2017.
@@ -173,10 +166,10 @@ public class DialogeComments extends Dialog {
         });
 
     }
-    private void getCOMMENTSDetails(){
-       try{
+    private void getCOMMENTSDetails() {
+     
 
-           final APIService service= APICleint.getClient().create(APIService.class);
+        /*   final APIService service= APICleint.getClient().create(APIService.class);
 
            Call<List<CommentsRETF>> call=service.getCOMMENTSDetails();
            call.enqueue(new Callback<List<CommentsRETF>>() {
@@ -210,8 +203,8 @@ public class DialogeComments extends Dialog {
        catch (Exception  e){
 
        }
-
-    }
+*/
+        }
 
 
     public void JSON_DATA_WEB_CALL() {

@@ -1,11 +1,14 @@
 package com.example.administrator.complettedmyspli.registrationwithvolley;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -29,9 +32,15 @@ public class VRegestraion extends AppCompatActivity {
     String name, email, username, password, confirmpassword;
     String reg_url = "http://devsinai.com/SocialNetwork/register.php";
     android.app.AlertDialog.Builder builder;
+    SharedPreferences prefToken;
+
+    SharedPreferences.Editor editorToken;
+    Context context;
+
+    String Token;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vregestraion);
 
@@ -48,6 +57,14 @@ public class VRegestraion extends AppCompatActivity {
         reg_bn.setOnClickListener(new View.OnClickListener() {
                                       @Override
                                       public void onClick(View v) {
+
+
+                                       // String Toke=  FirebaseInstanceIdServices. rsgisterToken("Token");
+                                          prefToken=getSharedPreferences("register.conf", Context.MODE_PRIVATE);
+                                         final String Tokens = prefToken.getString("Token","");
+                                         //
+                                          editorToken=prefToken.edit();
+                                          Toast.makeText(VRegestraion.this,Tokens,Toast.LENGTH_LONG).show();
 
                                           name = Name.getText().toString();
                                           email = Email.getText().toString();
@@ -101,6 +118,7 @@ public class VRegestraion extends AppCompatActivity {
                                                           params.put("email", email);
                                                           params.put("user_name", username);
                                                           params.put("password", password);
+                                                          params.put("Token",Tokens);
 
                                                           return params;
                                                       }

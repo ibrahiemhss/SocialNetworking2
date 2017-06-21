@@ -1,0 +1,49 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ff8b0000"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="15dp"
+    tools:context="com.example.administrator.complettedmyspli.GCM.GCMMain">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:text="Test GCM App"
+        android:textColor="#fff"
+        android:textSize="35sp"
+        android:textStyle="bold" />
+
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffff00"
+        android:hint="Your Email"
+        android:padding="15dp"
+        android:singleLine="true"
+        android:textColor="#FF0000" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:background="#fdfdfd"
+        android:onClick="RegisterUser"
+        android:text="Register"
+        android:textColor="#000"
+        android:textSize="20sp" />
+
+    <TextView
+        android:text="click"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:textAlignment="center"
+        android:textSize="40dp"
+        android:id="@+id/goToGCMhome" />
+</LinearLayout>
