@@ -5,5 +5,5 @@ Completing the first part of [social networks](https://github.com/ibrahiemhss/So
   
   ## Issues
 * app not work.
-* all urls not found now.
+* all urls not work now.
 
